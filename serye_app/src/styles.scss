@@ -1,0 +1,492 @@
+@import 'themes';
+
+@import '~@nebular/theme/styles/globals';
+
+@include nb-install() {
+  @include nb-theme-global();
+};
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+//COLORES
+$theme-main: #ffc111;
+$theme-main-red: #f33927;
+$theme-main-dark: #383838;
+$white: #ffffff;
+$white-dark: #e2e2e2;
+$black: #000000;
+$dark-font: #222222;
+$grey-dark: #2d2a25;
+$font-color:#333333;
+$grey-light: #dddddd;
+$grey: #777777;
+$grey2: #eeeeee;
+$grey3: #c3c3c3;
+$grey4: #444;
+$grey5: #848484;
+$grey6: #e5e5e5;
+$grey7: #787878;
+$grey8: #D9D9D9;
+$grey9: #f3f3f3;
+$grey10: #9c9c9c;
+$baners-background: #f5f5f5;
+$background: #fafafa;
+$gray-lighter: #f6f6f6;
+$footer-background: #f7f7f7;
+$main-green: #73cf00;
+$main-blue: #1298d7;
+$main-yellow: #f6bb32;
+
+
+$main-azul-oscuro: rgb(23,33,101);
+$main-azul-oscuro-claro: rgba(23,33,101, 0.8);
+$exito: rgb(0, 128, 0);
+$exito-claro: rgba(0,128,0,0.8);
+$exito-pulso: rgb(0, 255, 0);
+$info: rgb(18, 152, 215);
+$info-claro: rgba(18, 152, 215, 0.8);
+$info-pulso: rgb(0, 171, 255);
+$info-oscuro: rgb(63, 81, 181);
+$info-oscuro-claro: rgb(63, 81, 181, 0.8);
+$advertencia: rgb(246, 187, 50);
+$advertencia-claro: rgba(246, 187, 50, 0.8);
+$advertencia-pulso: rgb(255, 179, 0);
+$error: rgb(243, 57, 39);
+$error-claro: rgba(243, 57, 39, 0.8);
+$error-pulso: rgba(255, 20, 0);
+$venta-directa: rgb(115, 207, 0);
+$venta-directa-claro: rgb(115, 207, 0, 0.8);
+$venta-directa-pulso: rgb(142, 255, 0);
+$subasta: rgb(255, 173, 1);
+$subasta-claro: rgb(255, 173, 1, 0.8);
+$subasta-pulso: rgb(255, 191, 0);
+
+
+/*<><><><><><><><><><><><><><><><><>*/
+/*<><><><><><> I C O N O S <><><><>*/
+/*<><><><><><><><><><><><><><><><>*/
+.btn-navegacion-principal {
+  color: aliceblue;
+  &:hover {
+    color: $main-blue;
+  }
+}
+.icono-error-producto-card {
+  color: $grey10;
+  &:hover {
+    color: $error;
+  }
+}
+.icono-info-producto-card {
+  color: $grey10;
+  &:hover {
+    color: $info;
+  }
+}
+.icono-exito {
+  cursor: pointer;
+  color: $exito;
+  &:hover {
+    color: $exito-claro;
+  }
+}
+.icono-info-oscuro {
+  color: $info-oscuro;
+  &:hover {
+    color: $info-oscuro-claro;
+  }
+}
+.icono-info {
+  cursor: pointer;
+  color: $info;
+  &:hover {
+    color: $info-claro;
+  }
+}
+.icono-advertencia {
+  cursor: pointer;
+  color: $advertencia;
+  &:hover {
+    color: $advertencia-claro;
+  }
+}
+.icono-error {
+  cursor: pointer;
+  color: $error;
+  &:hover {
+    color: $error-claro;
+  }
+}
+.btn-configuracion-admin {
+  color: $info;
+  position: absolute;
+  top: 0;
+  left: 0;
+  &:hover {
+    color: $info-claro;
+  }
+}
+/*<><><><><><><><><><><><><><><><><>*/
+/*<><><><> M A T - M E N U <><><><>*/
+/*<><><><><><><><><><><><><><><><>*/
+.menu-exito {
+  cursor: pointer;
+  &:hover {
+    color: $exito-claro;
+    mat-icon{
+      color: $exito-claro;
+    }
+  }
+}
+.menu-error {
+  cursor: pointer;
+  &:hover {
+    color: $error-claro;
+    mat-icon{
+      color: $error-claro;
+    }
+  }
+}
+.menu-info {
+  cursor: pointer;
+  &:hover {
+    color: $info-claro;
+    mat-icon{
+      color: $info-claro;
+    }
+  }
+}
+.menu-advertencia {
+  cursor: pointer;
+  &:hover {
+    color: $advertencia-claro;
+    mat-icon{
+      color: $advertencia-claro;
+    }
+  }
+}
+
+
+/*<><><><><><><><><><><><><><><><><>*/
+/*<><><><><> B O T O N E S <><><><>*/
+/*<><><><><><><><><><><><><><><><>*/
+.btn-navegacion-principal {
+  color: aliceblue;
+  &:hover {
+    color: $main-blue;
+  }
+}
+.btn-icono-venta-directa {
+  background-color: $venta-directa;
+  color: $white !important;
+  &:hover {
+    background-color: $venta-directa-claro;
+  }
+}
+.btn-icono-subasta {
+  background-color: $subasta;
+  color: $white !important;
+  &:hover {
+    background-color: $subasta-claro;
+  }
+}
+.btn-exito {
+  background-color: $exito;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $exito-claro;
+  }
+}
+.btn-exito-outline {
+  background-color: $gray-lighter;
+  padding: 5px 10px !important;
+  color: $exito-claro !important;
+  &:hover {
+    background-color: $white;
+    color: $exito;
+  }
+}
+.btn-icono-exito {
+  background-color: $exito;
+  color: $white !important;
+  &:hover {
+    background-color: $exito-claro;
+  }
+}
+.btn-info {
+  background: $info;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $info-claro;
+  }
+}
+.btn-icono-info {
+  background: $main-blue;
+  color: $white !important;
+  &:hover {
+    background-color: $info-claro;
+  }
+}
+.btn-advertencia {
+  background: $advertencia;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $advertencia-claro;
+  }
+}
+
+.btn-icono-advertencia {
+  background: $main-yellow;
+  color: $white !important;
+  &:hover {
+    background-color: $advertencia-claro;
+  }
+}
+.btn-error {
+  background: $error;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $error-claro;
+  }
+}
+.btn-icono-error {
+  background: $error;
+  color: $white !important;
+  &:hover {
+    background-color: $error-claro;
+  }
+}
+.btn-venta-directa {
+  background-color: $venta-directa;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $venta-directa-claro;
+  }
+}
+.btn-icono-venta-directa {
+  background-color: $venta-directa;
+  color: $white !important;
+  &:hover {
+    background-color: $venta-directa-claro;
+  }
+}
+.btn-subasta {
+  background-color: $subasta;
+  padding: 5px 10px !important;
+  color: $white !important;
+  &:hover {
+    background-color: $subasta-claro;
+  }
+}
+.btn-icono-subasta {
+  background-color: $subasta;
+  color: $white !important;
+  &:hover {
+    background-color: $subasta-claro;
+  }
+}
+.btn-exito:disabled,.btn-info:disabled,.btn-advertencia:disabled,.btn-error:disabled,.btn-venta-directa:disabled,.btn-subasta:disabled,
+.btn-exito[disabled],.btn-info[disabled],.btn-advertencia[disabled],.btn-error[disabled],.btn-venta-directa[disabled],.btn-subasta[disabled],
+.btn-icono-exito:disabled,.btn-icono-info:disabled,.btn-icono-advertencia:disabled,.btn-icono-error:disabled,.btn-icono-venta-directa:disabled,.btn-icono-subasta:disabled,
+.btn-icono-exito[disabled],.btn-icono-info[disabled],.btn-icono-advertencia[disabled],.btn-icono-error[disabled],.btn-icono-venta-directa[disabled],.btn-icono-subasta[disabled]{
+  background-color: $gray-lighter;
+  color: $white !important;
+}
+.btn-exito-outline:disabled,.btn-exito-outline[disabled]{
+  background-color: $gray-lighter;
+  color: $white-dark !important;
+}
+::ng-deep .slider-filtro-precio-mayor {
+  background-color: $main-blue;
+}
+.pulso-exito {
+  animation: pulsaciones-exito 1.5s infinite;
+  @keyframes pulsaciones-exito {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($exito-pulso, 0.7);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 10px rgba($exito-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($exito-pulso, 0);
+    }
+  }
+}
+.pulso-exito-icono {
+  border-radius: 50%;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulsaciones-exito-icono 1s infinite;
+  @keyframes pulsaciones-exito-icono {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($exito-pulso, 0.7);
+    }
+    60% {
+      transform: scale(1);
+      box-shadow: 0 0 0 35px rgba($exito-pulso, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($exito-pulso, 0);
+    }
+  }
+}
+.pulso-advertencia {
+  animation: pulsaciones-advertencia 1.5s infinite;
+  @keyframes pulsaciones-advertencia {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($advertencia-pulso, 0.7);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 10px rgba($advertencia-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($advertencia-pulso, 0);
+    }
+  }
+}
+.pulso-error {
+  animation: pulsaciones-error 1.5s infinite;
+  @keyframes pulsaciones-error {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($error-pulso, 0.7);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 10px rgba($error-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($error-pulso, 0);
+    }
+  }
+}
+.pulso-error-icono {
+  border-radius: 50%;
+  width: 0.1px;
+  height: 0.1px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulsaciones-error-icono 1.5s infinite;
+  @keyframes pulsaciones-error-icono {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($error-pulso, 0.75);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 35px rgba($error-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($error-pulso, 0);
+    }
+  }
+}
+.pulso-info-icono {
+  border-radius: 50%;
+  width: 0.1px;
+  height: 0.1px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  animation: pulsaciones-info-icono 1.5s infinite;
+  @keyframes pulsaciones-info-icono {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($info-pulso, 0.75);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 35px rgba($info-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($info-pulso, 0);
+    }
+  }
+}
+.pulso-venta-directa {
+  animation: pulsaciones-venta-directa 1.5s infinite;
+  @keyframes pulsaciones-venta-directa {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($venta-directa-pulso, 0.7);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 10px rgba($venta-directa-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($venta-directa-pulso, 0);
+    }
+  }
+}
+.pulso-subasta {
+  animation: pulsaciones-subasta 1.5s infinite;
+  @keyframes pulsaciones-subasta {
+    0% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($subasta-pulso, 0.7);
+    }
+    60% {
+      //transform: scale(1);
+      box-shadow: 0 0 0 10px rgba($subasta-pulso, 0);
+    }
+    100% {
+      //transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba($subasta-pulso, 0);
+    }
+  }
+}
+/*<><><><><><><><><><><><><><><><><>*/
+/*<><><><><><> C H I P S <><><><><>*/
+/*<><><><><><><><><><><><><><><><>*/
+.chip-exito {
+  background-color: $exito !important;
+  color: $white !important;
+  font-size: large !important;
+  &:hover {
+    background-color: $exito-claro;
+  }
+}
+.chip-advertencia {
+  background: $advertencia !important;
+  color: $white !important;
+  font-size: large !important;
+  &:hover {
+    background-color: $advertencia-claro;
+  }
+}
+.chip-error {
+  background: $error !important;
+  color: $white !important;
+  font-size: large !important;
+  &:hover {
+    background-color: $error-claro;
+  }
+}

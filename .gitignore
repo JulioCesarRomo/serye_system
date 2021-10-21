@@ -1,0 +1,52 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+/serye_app/dist
+/serye_server/dist
+/serye_app/tmp
+/serye_app/out-tsc
+# Only exists if Bazel was run
+/serye_app/bazel-out
+
+# dependencies
+/serye_app/node_modules
+/serye_server/node_modules
+
+# profiling files
+chrome-profiler-events*.json
+speed-measure-plugin*.json
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/*
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+/serye_app/.sass-cache
+/serye_app/connect.lock
+/serye_app/coverage
+/serye_app/libpeerconnection.log
+npm-debug.log
+yarn-error.log
+testem.log
+/serye_app/typings
+
+# System Files
+.DS_Store
+Thumbs.db

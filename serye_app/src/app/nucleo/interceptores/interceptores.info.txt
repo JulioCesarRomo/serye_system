@@ -1,0 +1,2 @@
+
+Esto nos permite capturar y modificar las solicitudes y respuestas de nuestras llamadas a la API.

@@ -1,0 +1,34 @@
+<ngx-spinner></ngx-spinner>
+<div class="particles-wrapper body">
+    <canvas repulse-particles [number]=100></canvas>
+</div>
+<div class="container">
+    <div class="screen">
+        <div fxLayout="row" fxLayoutAlign="center center">
+            <img class="logo" src="https://serye.net:5529/default/logo.png" alt=""/>
+        </div>
+        <form #loginForm=ngForm class="login_form" fxLayout="row wrap">
+            <mat-form-field class="w-100" fxFlex="100" appearance="fill">
+                <mat-label>Correo electrónico o nombre de usuario</mat-label>
+                <input matInput placeholder="Ingresa tu correo electrónico o nombre de usuario" maxlength="50" [(ngModel)]="login.correoUsuario"
+                       [pattern]="verificarIniciarSesionConCorreo(login.correoUsuario) ? ExpresionesRegulares[0].expresion : ExpresionesRegulares[1].expresion"
+                       #correoModel="ngModel" name="correo" required>
+                <mat-icon matSuffix style="color: black">{{verificarIniciarSesionConCorreo(login.correoUsuario) ? 'email': 'person'}}</mat-icon>
+                <mat-error *ngIf="(correoModel.invalid && (correoModel.dirty || correoModel.touched)) && correoModel.errors.pattern">
+                    {{ verificarIniciarSesionConCorreo(login.correoUsuario) ? ExpresionesRegulares[0].mensaje : ExpresionesRegulares[1].mensaje }}
+                </mat-error>
+                <mat-error *ngIf="(correoModel.invalid && (correoModel.dirty || correoModel.touched)) && correoModel.errors.required">Ingresa tu correo electrónico o nombre de usuario</mat-error>
+            </mat-form-field>
+            <mat-form-field class="w-100" fxFlex="100" appearance="fill">
+                <mat-label>Contraseña</mat-label>
+                <input matInput placeholder="Contraseña" type="password" maxlength="50" [(ngModel)]="login.contrasena" #contrasenaModel="ngModel" name="contrasena" required>
+                <mat-icon matSuffix>lock</mat-icon>
+                <mat-error *ngIf="(contrasenaModel.invalid && (contrasenaModel.dirty || contrasenaModel.touched)) && contrasenaModel.errors.required">Por favor ingresa la contraseña</mat-error>
+            </mat-form-field>
+            <div class="button-wrap px-1" fxFlex="100" fxFlex.gt-sm="100" fxLayoutAlign="center center" >
+                <button mat-button mat-raised-button class="w-100 btn-exito-outline" (click)="iniciarSesionUsuario()"
+                        [disabled]="!loginForm.valid"><mat-icon>power_settings_new</mat-icon>Iniciar Sesión</button><br>
+            </div>
+        </form>
+    </div>
+</div>

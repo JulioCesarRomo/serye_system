@@ -1,0 +1,65 @@
+.particles-wrapper {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+}
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.particles-wrapper {
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  top: 0;
+}
+
+
+
+.container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+}
+/*FONDO DEL DIALOGO*/
+.screen {
+  background: linear-gradient(45deg, rgba(0, 74, 120, 0.8), #F2F2F2);
+  position: relative;
+  width: 400px;
+  box-shadow: 0 0 24px #5C5696;
+  border-radius: 10%;
+}
+
+.login_form {
+  width: 100%;
+  padding: 20% 30px 30px;
+}
+
+.logo {
+  position: absolute;
+  width: 50%;
+  filter: drop-shadow(2px 2px 2px #222);
+}
+
+.body{
+  font-family: 'Montserrat', sans-serif;
+  background: linear-gradient(145deg, rgba(0, 74, 120, 0.8), #F2F2F2) no-repeat;
+  background-size: cover;
+  background-size: 200% 200%;
+  animation: gradient 10s ease infinite;
+}
+@keyframes gradient {
+  0% {
+    background-position: 0 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0 50%;
+  }
+}

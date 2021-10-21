@@ -1,0 +1,2 @@
+
+La carpeta guardias contiene todos los guardias que utilizo para proteger diferentes rutas en nuestra aplicación.
