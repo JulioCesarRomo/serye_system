@@ -4,16 +4,23 @@
     </nb-card-header>
     <nb-card-body>
         <div class="col-12">
-            <nb-card size="small">
-                <nb-tabset fullWidth>
-                    <nb-tab tabTitle="Full width tab #1">
-                        <app-panel-administracion-usuarios-activos></app-panel-administracion-usuarios-activos>
-                    </nb-tab>
-                    <nb-tab tabTitle="Full width tab #2">
-                        <app-panel-administracion-usuarios-inactivos></app-panel-administracion-usuarios-inactivos>
-                    </nb-tab>
-                </nb-tabset>
-            </nb-card>
+            <div fxLayout="row">
+                <button mat-raised-button fxFlex="100" class="w-100 btn-exito mt-3" (click)="abrirAltaUsuarioModal()">
+                    <mat-icon>person_add</mat-icon> Agregar usuario
+                </button>
+            </div>
+            <div fxLayout="row">
+                <nb-card size="small" fxFlex="100">
+                    <nb-tabset fullWidth>
+                        <nb-tab tabTitle="Full width tab #1">
+                            <app-panel-administracion-usuarios-activos></app-panel-administracion-usuarios-activos>
+                        </nb-tab>
+                        <nb-tab tabTitle="Full width tab #2">
+                            <app-panel-administracion-usuarios-inactivos></app-panel-administracion-usuarios-inactivos>
+                        </nb-tab>
+                    </nb-tabset>
+                </nb-card>
+            </div>
         </div>
     </nb-card-body>
 </nb-card>

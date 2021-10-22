@@ -1,117 +1,121 @@
-<div class="row mt-3 mr-0 ml-0">
-    <div class="col-6 pl-0">
-        <button mat-button mat-raised-button  class="btn-exito w-100" (click)="abrirAltaEmpleadoModalComponent()">
-            <mat-icon>person_add</mat-icon> Agregar empleado
-        </button>
-    </div>
-    <div class="col-6 pr-0">
-        <button mat-button mat-raised-button class="btn-exito w-100" >
-            <mat-icon>cloud_upload</mat-icon> Importar empleados (Excel)
-        </button>
-    </div>
+<div fxLayout="row">
+    <mat-form-field fxFlex="100" appearance="legacy" class="col-12">
+        <mat-label>Buscar</mat-label>
+        <input matInput nbInput fullWidth [(ngModel)]="filtro" (keyup)="buscarEmpleado()" placeholder="Ingresa tu búsqueda">
+        <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
 </div>
-<div class="row m-2">
-    <div class="col-12 d-flex align-items-center">
-        <mat-form-field appearance="legacy" class="w-100">
-            <mat-label>Buscar</mat-label>
-            <input [(ngModel)]="filtro" (keyup)="buscarEmpleados()" matInput placeholder="Ingresa tu búsqueda">
-            <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
-    </div>
+<!--<div class="full-name-inputs">
+    <input type="text" nbInput fullWidth placeholder="Nick">
+    <input type="text" nbInput fullWidth placeholder="Last Name">
 </div>
-<div class="tabla-panel-administracion">
-    <table [@carga]="'in'" mat-table [dataSource]="dataSource" class="w-100" multiTemplateDataRows>
-        <ng-container matColumnDef="sucursal">
-            <th mat-header-cell *matHeaderCellDef> Sucursal </th>
-            <td mat-cell *matCellDef="let empleado"> {{ empleado.sucursal }} </td>
-        </ng-container>
-        <ng-container matColumnDef="nombre">
-            <th mat-header-cell *matHeaderCellDef> Nombre </th>
-            <td mat-cell *matCellDef="let empleado"> {{ _serFuncionesGenerales.obtenerNombreCompletoEmpleado(empleado)}} </td>
-        </ng-container>
-        <ng-container matColumnDef="rfc">
-            <th mat-header-cell *matHeaderCellDef> RFC </th>
-            <td mat-cell *matCellDef="let empleado"> {{empleado.rfc}} </td>
-        </ng-container>
-        <ng-container matColumnDef="correo">
-            <th mat-header-cell *matHeaderCellDef> Correo </th>
-            <td mat-cell *matCellDef="let empleado"> {{empleado.correo ? empleado.correo : '-'}} </td>
-        </ng-container>
-        <ng-container matColumnDef="opciones" class="text-center">
-            <th mat-header-cell *matHeaderCellDef class="text-center"> Opciones </th>
-            <td mat-cell *matCellDef="let empleado" class="text-center">
-                <button class="icono-info" mat-icon-button matTooltip="Ver empleado" (click)="abrirVistaEmpleadoModal(empleado)">
-                    <mat-icon>remove_red_eye</mat-icon>
-                </button>
-                <button class="icono-exito" mat-icon-button (click)="abrirConceptosEmpleado(empleado)"
-                        matTooltip="Administrar percepciones/deducciones">
-                    <mat-icon>attach_money</mat-icon>
-                </button>
-                <button class="icono-error" mat-icon-button (click)="actualizarEstadoEmpleado(empleado)"
-                        matTooltip="Eliminar empleado">
-                    <mat-icon>delete</mat-icon>
-                </button>
-                <button class="icono-info" mat-icon-button matTooltip="Más opciones"
-                        (click)="empleadoExpandido = empleadoExpandido === empleado ? null : empleado">
-                    <mat-icon>settings</mat-icon>
-                </button>
-            </td>
-        </ng-container>
-        <ng-container matColumnDef="detalleDeExpansion">
-            <td mat-cell *matCellDef="let empleado" [attr.colspan]="columnasMostradas.length">
-                <div class="detalle-empleado" [@detalleDeExpansion]="empleado == empleadoExpandido ? 'expanded' : 'collapsed'">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-advertencia w-100" mat-flat-button
-                                        (click)="abrirActualizacionInformacionGeneralEmpleadoModal(empleado)">
-                                    <mat-icon>create</mat-icon> Información general
-                                </button>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-advertencia w-100" mat-flat-button
-                                        (click)="abrirActualizacionDireccionEmpleadoModal(empleado)">
-                                    <mat-icon>create</mat-icon> Direccion
-                                </button>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-advertencia w-100" mat-flat-button
-                                        (click)="abrirActualizacionDatosContratacionEmpleadoModal(empleado)">
-                                    <mat-icon>create</mat-icon> Datos Contratacion
-                                </button>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-advertencia w-100" mat-flat-button
-                                        (click)="abrirActualizacionDatosSalarioEmpleadoModal(empleado)">
-                                    <mat-icon>create</mat-icon> Datos Salario
-                                </button>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-advertencia w-100" mat-flat-button
-                                        (click)="abrirActualizacionFotografiaEmpleadoModal(empleado)">
-                                    <mat-icon>create</mat-icon> Fotografía
-                                </button>
-                            </div>
-                            <div class="col-lg-4 col-md-4 col-sm-6 mb-1">
-                                <button class="btn-exito w-100" mat-flat-button
-                                        (click)="abrirConceptosEmpleado(empleado)">
-                                    <mat-icon>add</mat-icon> Percepciones/Deducciones/Otros pagos
-                                </button>
-                            </div>
+<input type="password" nbInput fullWidth placeholder="Password">
+<input type="text" nbInput fullWidth shape="rectangle" placeholder="Rectangle border">
+<input type="text" nbInput fullWidth shape="semi-round" placeholder="Semi-round border">
+<input type="text" nbInput fullWidth shape="round" placeholder="Rounded border">
+<input type="text" nbInput fullWidth placeholder="Disabled input" disabled/>
+<textarea rows="5" nbInput fullWidth shape="round"  placeholder="Text Area"></textarea>
+<input type="text" nbInput fullWidth fieldSize="small"  placeholder="Small Input">
+<input type="text" nbInput fullWidth fieldSize="medium"  placeholder="Medium Input">
+<input type="text" nbInput fullWidth fieldSize="large"  placeholder="Large Input">-->
+<table mat-table [dataSource]="dataSource" class="w-100" multiTemplateDataRows matSort>
+    <ng-container matColumnDef="nombreCompleto">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre completo </th>
+        <td mat-cell *matCellDef="let usuario">
+            {{usuario.nombre + ' ' + usuario.apepat + (usuario.apemat ? (' ' + usuario.apemat) : '')}} </td>
+    </ng-container>
+    <ng-container matColumnDef="usuario">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre de usuario </th>
+        <td mat-cell *matCellDef="let usuario"> {{usuario.usuario}} </td>
+    </ng-container>
+    <ng-container matColumnDef="correo">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Correo electrónico </th>
+        <td mat-cell *matCellDef="let usuario"> {{usuario.correo}} </td>
+    </ng-container>
+    <ng-container matColumnDef="rfc">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> RFC </th>
+        <td mat-cell *matCellDef="let usuario"> {{usuario.rfc ? usuario.rfc : '-'}} </td>
+    </ng-container>
+    <ng-container matColumnDef="activo">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Estado </th>
+        <td mat-cell *matCellDef="let usuario" class="text-center">
+            <mat-icon class="icono-exito">check</mat-icon>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="opciones" class="text-center">
+        <th mat-header-cell *matHeaderCellDef class="text-center"> Opciones </th>
+        <td mat-cell *matCellDef="let usuario" class="text-center">
+            <button class="icono-info" mat-icon-button matTooltip="Ver usuario"
+                    (click)="abrirVistaEmpleadoModal(usuario)">
+                <mat-icon>remove_red_eye</mat-icon>
+            </button>
+            <button class="icono-error"
+                    mat-icon-button matTooltip="Eliminar usuario" (click)="actualizarEstadoEmpelado(usuario)">
+                <mat-icon>delete</mat-icon>
+            </button>
+            <button color="primary" mat-icon-button matTooltip="Más opciones"
+                    (click)="empleadoExpandido = empleadoExpandido === usuario ? null : usuario">
+                <mat-icon>settings</mat-icon>
+            </button>
+        </td>
+    </ng-container>
+    <ng-container matColumnDef="detalleDeExpansion">
+        <td mat-cell *matCellDef="let usuario" [attr.colspan]="columnasMostradas.length">
+            <div class="detalle-elemento"
+                 [@detalleDeExpansion]="usuario == empleadoExpandido ? 'expanded' : 'collapsed'">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirInformacionGeneralAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Información general
+                            </button>
+                        </div>
+                        <div class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirDireccionAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Dirección
+                            </button>
+                        </div>
+                        <div class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirContactoAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Contacto
+                            </button>
+                        </div>
+                        <div *ngIf="_serAutenticacion.obtener_IdUsuario() != usuario._id"
+                             class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirPermisosAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Permisos
+                            </button>
+                        </div>
+                        <div *ngIf="_serAutenticacion.obtener_IdUsuario() != usuario._id"
+                             class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirHorariosAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Horarios
+                            </button>
+                        </div>
+                        <div class="col-lg-4 mb-1">
+                            <button class="btn-advertencia w-100" mat-flat-button
+                                    (click)="abrirFotoAdministrarEmpleadoModal(usuario)">
+                                <mat-icon>create</mat-icon> Fotografía
+                            </button>
                         </div>
                     </div>
                 </div>
-            </td>
-        </ng-container>
-        <tr mat-header-row *matHeaderRowDef="columnasMostradas"></tr>
-        <tr mat-row *matRowDef="let cliente; columns: columnasMostradas;" class="fila-empleado"></tr>
-        <tr mat-row *matRowDef="let cliente; columns: ['detalleDeExpansion']" class="fila-detalle-empleado"></tr>
-    </table>
-</div>
-<app-alerta *ngIf="dataSource != null && dataSource.data.length == 0 && (filtro == null || filtro == '')"
+            </div>
+        </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnasMostradas"></tr>
+    <tr mat-row *matRowDef="let usuario; columns: columnasMostradas;" class="fila-tabla"></tr>
+    <tr mat-row *matRowDef="let usuario; columns: ['detalleDeExpansion']" class="fila-detalle-elemento"></tr>
+</table>
+<app-alerta *ngIf="dataSource != null && dataSource.data.length == 0"
             mensaje="No se tienen resultados registrados por el momento." color="advertencia"></app-alerta>
-<app-alerta *ngIf="dataSource != null && dataSource.data.length == 0 && (filtro != null && filtro != '')"
+<app-alerta *ngIf="dataSource != null && dataSource.data.length != 0 && dataSource.filteredData.length == 0"
             mensaje="La búsqueda no arrojó resultados." color="info"></app-alerta>
-<app-paginador #paginador [filtro]="filtro" (cambioDePaginaEvento)="cambioDePaginaEventoPaginador($event)"
-               [total]="totalClientes">
+<app-paginador #paginador [filtro]="filtro" [nombreElementos]="'Usuarios'"
+               (cambioDePaginaEvento)="cambioDePaginaEventoPaginador($event)" [total]="totalUsuarios">
 </app-paginador>

@@ -25,6 +25,7 @@
     "@auth0/angular-jwt": "^5.0.2",
     "@nebular/auth": "^8.0.0",
     "@nebular/eva-icons": "7.0.2",
+    "@nebular/security": "^8.0.0",
     "@nebular/theme": "^7.0.2",
     "@popperjs/core": "^2.10.1",
     "animate.css": "^4.1.1",
