@@ -18,11 +18,13 @@ export const MENU_ITEMS: NbMenuItem[] = [
     },
     {
         title: 'Usuarios',
-        icon: '/inicio/usuarios',
+        icon: 'person-outline',
+        link: '/inicio/usuarios',
     },
     {
         title: 'Proveedores',
-        icon: '/inicio/proveedores',
+        icon: 'person-outline',
+        link: '/inicio/proveedores',
         children: [
             {
                 title: 'Form Inputs',

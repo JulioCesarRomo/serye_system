@@ -10,6 +10,8 @@ import * as momento from 'moment';
 import {CurrencyPipe} from '@angular/common';
 import {Router} from "@angular/router";
 import {AlertasService} from "./alertas.service";
+import {TiposUsuario} from "../../compartido/enumeraciones/tipos-usuario.enum";
+import {TiposDePersona} from "../../compartido/enumeraciones/tipos-de-persona.enum";
 // import {Producto} from "../../compartido/modelos/producto.model";
 // import {ImagenProducto} from "../../compartido/modelos/imagenProducto.model";
 // import {AutenticacionService} from "./autenticacion.service";
@@ -46,7 +48,22 @@ export class FuncionesGeneralesService {
     ) { }
 
   obtenerFechaActual(){ return new Date(Date.now())}
-
+  obtenerTipoUsuario(tipoUsuario: number): string {
+    switch (tipoUsuario) {
+      case TiposUsuario.Root: return 'Root';
+      case TiposUsuario.Administrador: return 'Administrador';
+      case TiposUsuario.Empleado: return 'Empleado';
+      default: return ''
+    }
+  }
+  obtenerTipoDePersona(tipoDePersona: number): string {
+    switch (tipoDePersona) {
+      case TiposDePersona.Moral: return 'Moral';
+      case TiposDePersona.Fisica: return 'Física';
+      case TiposDePersona.Ninguna: return 'Ninguna';
+      default: return ''
+    }
+  }
   /*obtenerNombreAcceso(acceso: Acceso | null){
     let nombre = '';
     if(isNotNullOrUndefined(acceso.nombre)) nombre += acceso.nombre;

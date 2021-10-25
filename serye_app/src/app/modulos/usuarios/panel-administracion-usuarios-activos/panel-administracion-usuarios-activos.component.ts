@@ -1,7 +1,5 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import {MatSort} from '@angular/material/sort';
 import {MatDialog} from '@angular/material/dialog';
-import {MatPaginator} from '@angular/material/paginator';
 import {NgxSpinnerService} from "ngx-spinner";
 import {SpinnerCargaCirculos} from "../../../compartido/constantes/globales";
 import {Router} from "@angular/router";
@@ -44,16 +42,16 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.obtenerEmpleados(0, 10);
+    this.obtenerUsuarios(0, 10);
   }
 
-  obtenerEmpleados(inicio: number, fin: number) {
+  obtenerUsuarios(inicio: number, fin: number) {
     this._serSpinner.show(undefined, SpinnerCargaCirculos);
     this._serUsuarios.obtenerUsuariosFiltrados(this.filtro, inicio, fin, true).subscribe(
-        (empleados: Usuario[]) => {
+        (usuarios: Usuario[]) => {
           this._serSpinner.hide();
           this.obtenerNumUsuarios();
-          this.inicializarTabla(empleados);
+          this.inicializarTabla(usuarios);
         },
         (err: HttpErrorResponse) => {
           this._serSpinner.hide();
@@ -76,11 +74,11 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
 
   buscarEmpleado(): void {
     this._serEventos.reiniciarIndicePaginador();
-    this.obtenerEmpleados(this.paginador.inicio, this.paginador.fin);
+    this.obtenerUsuarios(this.paginador.inicio, this.paginador.fin);
   }
 
   cambioDePaginaEventoPaginador(evento: Paginador) {
-    this.obtenerEmpleados(evento.inicio, evento.fin);
+    this.obtenerUsuarios(evento.inicio, evento.fin);
   }
 
   actualizarEstadoEmpelado(empleadoActualizar: Usuario) {

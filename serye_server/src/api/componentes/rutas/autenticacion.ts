@@ -10,7 +10,7 @@ autenticacionRutas.post('/iniciar-sesion', AutenticacionCtrl.iniciarSesionUsuari
 /* PUT */
 
 /* PATCH */
-autenticacionRutas.patch('/sesion', autenticacionMiddleware, AutenticacionCtrl.cerrarSesionUsuario);
+autenticacionRutas.patch('/sesion', AutenticacionCtrl.cerrarSesionUsuario);
 autenticacionRutas.patch('/codigo-recuperacion', AutenticacionCtrl.crearCodigoRecuperacion);
 autenticacionRutas.patch('/contrasena', AutenticacionCtrl.recuperarContrasena);
 

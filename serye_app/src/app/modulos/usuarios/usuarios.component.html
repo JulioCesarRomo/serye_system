@@ -1,21 +1,21 @@
 <nb-card>
     <nb-card-header>
-        Smart Table
+        ADMINISTRACIÓN DE USUARIOS
     </nb-card-header>
     <nb-card-body>
         <div class="col-12">
             <div fxLayout="row">
-                <button mat-raised-button fxFlex="100" class="w-100 btn-exito mt-3" (click)="abrirAltaUsuarioModal()">
-                    <mat-icon>person_add</mat-icon> Agregar usuario
+                <button nbButton outline status="success" fxFlex="100" (click)="abrirAltaUsuarioModal()">
+                    <mat-icon>person_add</mat-icon>&nbsp;AGREGAR NUEVO USUARIO
                 </button>
             </div>
             <div fxLayout="row">
                 <nb-card size="small" fxFlex="100">
                     <nb-tabset fullWidth>
-                        <nb-tab tabTitle="Full width tab #1">
+                        <nb-tab tabTitle="ACTIVOS">
                             <app-panel-administracion-usuarios-activos></app-panel-administracion-usuarios-activos>
                         </nb-tab>
-                        <nb-tab tabTitle="Full width tab #2">
+                        <nb-tab tabTitle="ELIMINADOS">
                             <app-panel-administracion-usuarios-inactivos></app-panel-administracion-usuarios-inactivos>
                         </nb-tab>
                     </nb-tabset>

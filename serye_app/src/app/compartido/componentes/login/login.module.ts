@@ -9,7 +9,6 @@ import {FormsModule} from "@angular/forms";
 import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DirectivasModule} from "../../directivas/directivas.module";
-import {FlexModule} from "@angular/flex-layout";
 import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
@@ -26,7 +25,6 @@ import {NgxSpinnerModule} from "ngx-spinner";
         MatInputModule,
         MatButtonModule,
         DirectivasModule,
-        FlexModule,
         NgxSpinnerModule
     ],
   bootstrap:    [ LoginComponent ]

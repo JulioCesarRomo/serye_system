@@ -490,3 +490,13 @@ $subasta-pulso: rgb(255, 191, 0);
     background-color: $error-claro;
   }
 }
+
+.col-inputs,
+.validation-checkboxes {
+  display: flex;
+  margin: 0 -0.5rem;
+
+  > * {
+    margin: 0 0.5rem;
+  }
+}

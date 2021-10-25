@@ -19,14 +19,13 @@ export class ErrorInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return next.handle(request).pipe(catchError(err => {
             if (err.status === 401) {
-              this._serWebSockets.cerrarSesionWS().then(
-                () => {
-                  localStorage.removeItem('sucursal_activa');
+              /*this._serWebSockets.cerrarSesionWS().then(
+                () => {*/
                   localStorage.removeItem('tema-actual');
                   this.enrutador.navigate(['/login']);
                   this._serSpinner.hide();
                   this._serAutenticacion.destruirToken();
-                })
+                /*})*/
             }
             return throwError(err);
         }));

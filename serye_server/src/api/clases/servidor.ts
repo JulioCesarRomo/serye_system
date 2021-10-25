@@ -6,6 +6,7 @@ import {OPCIONES, PUERTO_SERVIDOR} from '../../config/globales';
 import categoriasRutas from "../componentes/rutas/categorias";
 import inicioRutas from "../componentes/rutas/inicio";
 import autenticacionRutas from "../componentes/rutas/autenticacion";
+import usuariosRutas from "../componentes/rutas/usuarios";
 export default class Servidor {
   private static _instance: Servidor;
   public app: express.Application;
@@ -31,6 +32,7 @@ export default class Servidor {
   // RUTAS DEL SERVIDOR E INICIALIZADORES DE LAS MISMAS
   private inicializarRutas() {
     this.app.use('/api/v1/inicio', inicioRutas);
+    this.app.use('/api/v1/usuarios', usuariosRutas);
     this.app.use('/api/v1/categorias', categoriasRutas);
     this.app.use('/api/v1/autenticacion', autenticacionRutas);
   }

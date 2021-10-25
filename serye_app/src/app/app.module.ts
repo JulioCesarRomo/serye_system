@@ -10,7 +10,6 @@ import {HTTP_INTERCEPTORS, HttpClientModule} from "@angular/common/http";
 import {TokenInterceptor} from "./nucleo/interceptores/token.interceptor";
 import {ErrorInterceptor} from "./nucleo/interceptores/error.interceptor";
 import {CurrencyPipe} from "@angular/common";
-import {MatIconModule} from "@angular/material/icon";
 import {DirectivasModule} from "./compartido/directivas/directivas.module";
 import {
   NbThemeModule,
@@ -39,7 +38,6 @@ const configuracionSockets: SocketIoConfig = {
     AppRoutingModule,
     HttpClientModule,
     SocketIoModule.forRoot(configuracionSockets),
-    MatIconModule,
     DirectivasModule,
     NbThemeModule.forRoot({ name: 'corporate' }),
     NbLayoutModule,

@@ -37,10 +37,6 @@ export interface IUsuario extends Document {
         fechaRegistro: Date;
         activo: boolean;
     }[];
-    /*personalizacion:
-    {
-        _idTemaDeColores: ITemaColores['_id'];
-    };*/
     codigoRecuperacion: string;
     moduloActivo: number;
     _idAccesoUsuario: IUsuario['_id'];
@@ -52,6 +48,7 @@ export interface IUsuario extends Document {
         fechaRegistro: Date;
         activo: boolean;
     }[];
+    idTemaInterfaz: number;
     tieneHorario: boolean;
     mismoHorario: boolean;
     administrandoFolios: boolean;
@@ -111,6 +108,7 @@ const usuarioSchema = new Schema({
             activo: { type: Boolean, required: false, default: true }
         }], required: false
     },
+    idTemaInterfaz: { type: Number, required: true },
     tieneHorario: { type: Boolean, required: false },
     mismoHorario: { type: Boolean, required: false },
     conectado: { type: Boolean, required: false, default: false },
