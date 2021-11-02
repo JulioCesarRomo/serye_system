@@ -7,6 +7,7 @@ import categoriasRutas from "../componentes/rutas/categorias";
 import inicioRutas from "../componentes/rutas/inicio";
 import autenticacionRutas from "../componentes/rutas/autenticacion";
 import usuariosRutas from "../componentes/rutas/usuarios";
+import codigosPostalesRutas from "../componentes/rutas/codigosPostales";
 export default class Servidor {
   private static _instance: Servidor;
   public app: express.Application;
@@ -35,6 +36,7 @@ export default class Servidor {
     this.app.use('/api/v1/usuarios', usuariosRutas);
     this.app.use('/api/v1/categorias', categoriasRutas);
     this.app.use('/api/v1/autenticacion', autenticacionRutas);
+    this.app.use('/api/v1/codigos-postales', codigosPostalesRutas);
   }
 
   // FUNCIÓN QUE INICIALIZA EL SERVIDOR (UTILIZADA EN "principal.ts")

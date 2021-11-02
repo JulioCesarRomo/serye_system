@@ -1,3 +1,6 @@
+import {CodigoPostal} from "./codigoPostal.model";
+import {TiposUsuario} from "../enumeraciones/tipos-usuario.enum";
+
 export class Horario {
     dia: number;
     horaInicio?: string;
@@ -27,7 +30,13 @@ export class Usuario {
     rutaFoto?: string;
     tipoDePersona: number;
     rfc?: string;
+    telefono: string;
     telefonos?: string[];
+    //VARIABLES PARA LA DIRECCION
+    _idCodigoPostal: CodigoPostal;
+    calle: string;
+    numeroExterior: string;
+    numeroInterior: string;
     //personalizacion?: Personalizacion;
     //configuracion?: Configuracion;
     //permisosGlobales?: PermisosGlobales;
@@ -42,10 +51,12 @@ export class Usuario {
     constructor() {
         this.omitirDireccion = true;
         this.telefonos = [];
+        this.tipo = TiposUsuario.Empleado;
         //this.personalizacion = new Personalizacion();
         //this.configuracion = new Configuracion();
         //this.permisosGlobales = new PermisosGlobales();
         this.horario = [];
         this.contrasenas = [];
+        this._idCodigoPostal = new CodigoPostal();
     }
 }

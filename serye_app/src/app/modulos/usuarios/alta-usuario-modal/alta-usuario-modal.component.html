@@ -1,145 +1,219 @@
-<nb-card >
-    <nb-card-body >
-        <nb-stepper fxFlex="100">
-            <nb-step [stepControl]="infoGeneralForm" label="First step">
-                <form #infoGeneralForm="ngForm" class="step-container">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <!--<div class="col-lg-6 col-md-6 col-sm-12">
-                                <mat-form-field class="w-100">
-                                    <mat-label>Tipo de usuario</mat-label>
-                                    <mat-select [(ngModel)]="nuevoUsuario.tipo" #tipo="ngModel" name="tipo" required>
-                                        <mat-option disabled [value]="">
-                                            Selecciona un tipo de usuario
-                                        </mat-option>
-                                        <ng-container *ngIf="_serAutenticacion.obtenerTipoUsuario() == TiposUsuario.Root">
-                                            <mat-option [value]="TiposUsuario.Administrador">
-                                                {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Administrador)}}
-                                            </mat-option>
-                                            <mat-option [value]="TiposUsuario.Empleado">
-                                                {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Empleado)}}
-                                            </mat-option>
-                                        </ng-container>
-                                    </mat-select>
-                                    <mat-error *ngIf="(tipo.invalid && (tipo.dirty || tipo.touched)) && tipo.errors.required">
-                                        Por favor selecciona un tipo de usuario
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>-->
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <mat-form-field class="w-100">
-                                    <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.usuario" #usuario="ngModel" name="usuario" matInput
-                                           placeholder="Ingresa el nombre de usuario" pattern="{{ ExpresionesRegulares[1].expresion }}" required
-                                          [existe]="nombreUsuarioExistente" (keyup)="existeNombreUsuario()">
-                                    <mat-error *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched)) && usuario.errors.required">
-                                        Por favor ingresa el nombre de usuario
-                                    </mat-error>
-                                    <mat-error *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched)) && usuario.errors.pattern">
-                                        {{ ExpresionesRegulares[1].mensaje }}
-                                    </mat-error>
-                                    <mat-error *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched)) && usuario.errors.existe">
-                                        Nombre de usuario ocupado, favor de intentar con uno diferente
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="inputFirstName" class="label">First Name</label>
-                                    <input type="text" nbInput fullWidth id="inputFirstName" placeholder="First Name">
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <label for="inputLastName" class="label">Last Name</label>
-                                    <input type="text" nbInput fullWidth id="inputLastName" placeholder="Last Name">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                <label class="label" for="input-nombre">Nombre</label>
-                                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.nombre" #nombre="ngModel" name="nombre" matInput
-                                       placeholder="Ingresa el nombre" pattern="{{ ExpresionesRegulares[3].expresion }}" id="input-nombre" required>
-                                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.required">
-                                    <p class="caption status-danger" *ngIf="nombre.errors?.required">Porn favor ingresa el nombre</p>
-                                </ng-container>
-                                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.pattern">
-                                    <p class="caption status-danger" *ngIf="nombre.errors?.required">{{ ExpresionesRegulares[3].mensaje }}</p>
-                                </ng-container>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-                                    <mat-label>Apellido paterno</mat-label>
-                                    <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.apepat" #apepat="ngModel" name="apepat" matInput
-                                           placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" required>
-                                    <mat-error *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.required">
-                                        Por favor ingresa el apellido paterno
-                                    </mat-error>
-                                    <mat-error *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.pattern">
-                                        {{ ExpresionesRegulares[4].mensaje }}
-                                    </mat-error>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <mat-form-field class="w-100">
-                                    <mat-label>Apellido materno</mat-label>
-                                    <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.apemat" #apemat="ngModel" name="apemat" matInput
-                                           placeholder="Ingresa el apellido materno" pattern="{{ ExpresionesRegulares[4].expresion }}">
-                                    <mat-error *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.pattern">
-                                        {{ ExpresionesRegulares[4].mensaje }}
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <div class="row" *ngIf="nuevoUsuario.tipo == TiposUsuario.Administrador">
-                            <!--<div class="col-lg-6 col-md-6 col-sm-12">
-                                <mat-form-field class="w-100">
-                                    <mat-label>Tipo de persona</mat-label>
-                                    <mat-select [(ngModel)]="nuevoUsuario.tipoDePersona" #tipoDePersona="ngModel" name="tipoDePersona"
-                                                required>
-                                        <mat-option disabled [value]="">
-                                            Selecciona el tipo de persona
-                                        </mat-option>
-                                        <mat-option [value]="TiposDePersona.Moral">
-                                            {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Moral)}}
-                                        </mat-option>
-                                        <mat-option [value]="TiposDePersona.Fisica">
-                                            {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Fisica)}}
-                                        </mat-option>
-                                    </mat-select>
-                                    <mat-error
-                                            *ngIf="(tipoDePersona.invalid && (tipoDePersona.dirty || tipoDePersona.touched)) && tipoDePersona.errors.required">
-                                        Por favor selecciona un tipo de persona
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>-->
-                            <div class="col-lg-6 col-md-6 col-sm-12">
-                                <mat-form-field class="w-100">
-                                    <mat-label>RFC</mat-label>
-                                    <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.rfc" #rfc="ngModel" name="rfc" id="" matInput
-                                           placeholder="Ingresa el RFC" [disabled]="!nuevoUsuario.tipoDePersona"
-                                           pattern="{{ nuevoUsuario.tipoDePersona == TiposDePersona.Moral ? ExpresionesRegulares[6].expresion : ExpresionesRegulares[7].expresion }}"
-                                           (blur)="convertirRfcMayusculas()">
-                                    <mat-error *ngIf="(rfc.invalid && (rfc.dirty || rfc.touched)) && rfc.errors.required">
-                                        Por favor ingresa el RFC
-                                    </mat-error>
-                                    <mat-error *ngIf="(rfc.invalid && (rfc.dirty || rfc.touched)) && rfc.errors.pattern">
-                                        {{ nuevoUsuario.tipoDePersona == TiposDePersona.Moral ? ExpresionesRegulares[6].mensaje : ExpresionesRegulares[7].mensaje }}
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <!--<div class="row">
-                            <button mat-raised-button matStepperNext color="primary" class="ml-auto"
-                                    [disabled]="!infoGeneralForm.valid || contadorPeticionesNombreUsuarioExistente > 0"
-                                    (click)="obtenerEstados()">Siguiente <mat-icon>navigate_next</mat-icon></button>
-                        </div>-->
-                    </div>
-                    <button nbButton nbStepperNext>next</button>
-                </form>
-            </nb-step>
-        </nb-stepper>
-    </nb-card-body>
+<ngx-spinner></ngx-spinner>
+<nb-card style="max-height: 100%; overflow-y: hidden;">
+  <nb-card-header>
+    ALTA DE NUEVO USUARIO
+  </nb-card-header>
+  <nb-card-body class="container">
+    <form #nuevoUsuarioForm="ngForm" class="step-container">
+      <div class="container-fluid">
+          <div class="row">
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label class="label" for="select_tipo_usuario">Tipo de usuario</label>
+                <div class="w-100">
+                  <nb-button-group id="select_tipo_usuario">
+                    <button nbButtonToggle [value]="TiposUsuario.Administrador" (click)="nuevoUsuario.tipo = TiposUsuario.Administrador">
+                      {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Administrador)}}</button>
+                    <button nbButtonToggle [value]="TiposUsuario.Empleado" (click)="nuevoUsuario.tipo = TiposUsuario.Empleado">
+                      {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Empleado)}}</button>
+                  </nb-button-group>
+                </div>
+                  <!--<nb-select fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.tipo" #tipo="ngModel" name="tipo" id="select_tipo_usuario" required>
+                      <nb-option [value]="TiposUsuario.Administrador">
+                          {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Administrador)}}
+                      </nb-option>
+                      <nb-option [value]="TiposUsuario.Empleado">
+                          {{_serFuncionesGenerales.obtenerTipoUsuario(TiposUsuario.Empleado)}}
+                      </nb-option>
+                  </nb-select>
+                  <ng-container *ngIf="(tipo.invalid && (tipo.dirty || tipo.touched)) && tipo.errors.required">
+                    <p class="caption status-danger" *ngIf="usuario.errors?.required">Por favor selecciona un tipo de usuario</p>
+                  </ng-container>-->
+              </div>
+              <div class="col-lg-6 col-md-6 col-sm-12">
+                <label class="label" for="input_usuario">Usuario</label>
+                <input type="text" nbInput fullWidth shape="rectangle" id="input_usuario"  [(ngModel)]="nuevoUsuario.usuario" #usuario="ngModel" name="usuario"
+                       placeholder="Ingresa el nombre de usuario" pattern="{{ ExpresionesRegulares[1].expresion }}" required
+                       [existe]="nombreUsuarioExistente" (keyup)="existeNombreUsuario()">
+                <ng-container *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched)) && usuario.errors.required">
+                  <p class="caption status-danger">Por favor ingresa el usuario</p>
+                </ng-container>
+                <ng-container *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched)) && usuario.errors.pattern">
+                  <p class="caption status-danger">{{ ExpresionesRegulares[1].mensaje }}</p>
+                </ng-container>
+                <ng-container *ngIf="(usuario.invalid && (usuario.dirty || usuario.touched || usuario.errors.pattern)) && usuario.errors.existe">
+                  <p class="caption status-danger">Nombre de usuario ocupado, favor de intentar con uno diferente</p>
+                </ng-container>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+              <label class="label" for="input_correo">Correo electrónico</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el correo electrónico" [(ngModel)]="nuevoUsuario.correo"
+                     #correo="ngModel" ngModel id="input_correo" name="correo" pattern="{{ ExpresionesRegulares[0].expresion }}" required>
+              <ng-container *ngIf="(correo.invalid && (correo.dirty || correo.touched)) && correo.errors.required">
+                <p class="caption status-danger">Por favor ingresa el correo electrónico</p>
+              </ng-container>
+              <ng-container *ngIf="(correo.invalid && (correo.dirty || correo.touched)) && correo.errors.pattern">
+                <p class="caption status-danger">{{ ExpresionesRegulares[0].mensaje }}</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+              <label class="label" for="input_telefono">Numero de teléfono</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero de teléfono" [(ngModel)]="nuevoUsuario.telefonos"
+                     #telefono="ngModel" ngModel id="input_telefono" name="telefono" mascaraTelefono required>
+              <ng-container *ngIf="(telefono.invalid && (telefono.dirty || telefono.touched)) && telefono.errors.required">
+                <p class="caption status-danger">Por favor ingresa un numero de contacto</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+                <label class="label" for="input_nombre">Nombre</label>
+                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.nombre" #nombre="ngModel" name="nombre"
+                       placeholder="Ingresa el nombre" pattern="{{ ExpresionesRegulares[3].expresion }}" id="input_nombre" required>
+                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.required">
+                    <p class="caption status-danger" *ngIf="nombre.errors?.required">Por favor ingresa el nombre</p>
+                </ng-container>
+                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.pattern">
+                    <p class="caption status-danger" *ngIf="nombre.errors?.required">{{ ExpresionesRegulares[3].mensaje }}</p>
+                </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_apepat">Apellido paterno</label>
+              <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.apepat" #apepat="ngModel" name="apepat"
+                     placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" id="input_apepat" required>
+              <ng-container *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.required">
+                <p class="caption status-danger">Por favor ingresa el apellido paterno</p>
+              </ng-container>
+              <ng-container *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.pattern">
+                <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_apemat">Apellido materno</label>
+              <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.apemat" #apemat="ngModel" name="apemat"
+                     placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" id="input_apemat" required>
+              <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.required">
+                <p class="caption status-danger">Por favor ingresa el apellido paterno</p>
+              </ng-container>
+              <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.pattern">
+                <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
+              </ng-container>
+            </div>
+          </div>
+          <!--<div class="row" *ngIf="nuevoUsuario.tipo == TiposUsuario.Administrador">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label class="label" for="select_tipo_persona">Tipo de persona</label>
+              <nb-select fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.tipoDePersona" #tipoDePersona="ngModel" name="tipoDePersona" id="select_tipo_persona" required>
+                <nb-option disabled [value]="">
+                  Selecciona el tipo de persona
+                </nb-option>
+                <nb-option [value]="TiposDePersona.Moral">
+                  {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Moral)}}
+                </nb-option>
+                <nb-option [value]="TiposDePersona.Fisica">
+                  {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Fisica)}}
+                </nb-option>
+              </nb-select>
+              <ng-container *ngIf="(tipoDePersona.invalid && (tipoDePersona.dirty || tipoDePersona.touched)) && tipoDePersona.errors.required">
+                <p class="caption status-danger" *ngIf="usuario.errors?.required">Por favor selecciona un tipo de persona</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label class="label" for="select_tipo_persona">Tipo de persona</label>
+              <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.rfc" #rfc="ngModel" name="rfc" id="" matInput
+                     placeholder="Ingresa el RFC" [disabled]="!nuevoUsuario.tipoDePersona"
+                     pattern="{{ nuevoUsuario.tipoDePersona == TiposDePersona.Moral ? ExpresionesRegulares[6].expresion : ExpresionesRegulares[7].expresion }}"
+                     (blur)="convertirRfcMayusculas()">
+              <ng-container *ngIf="(rfc.invalid && (rfc.dirty || rfc.touched)) && rfc.errors.pattern">
+                <p class="caption status-danger" *ngIf="usuario.errors?.required">Por favor selecciona un tipo de persona</p>
+              </ng-container>
+              <ng-container *ngIf="(rfc.invalid && (rfc.dirty || rfc.touched)) && rfc.errors.pattern">
+                <p class="caption status-danger" *ngIf="usuario.errors?.required">{{ nuevoUsuario.tipoDePersona == TiposDePersona.Moral ? ExpresionesRegulares[6].mensaje : ExpresionesRegulares[7].mensaje }}</p>
+              </ng-container>
+            </div>
+          </div>-->
+        <div class="row">
+          <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+            <label class="label" for="input_codigo_postal">Codigo postal</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Código postal" #claveCodigoPostal="ngModel"
+                   (blur)="filtrarCodigosPostales(claveCodigoPostal.value)" ngModel id="input_codigo_postal" name="claveCodigoPostal" required>
+            <ng-container *ngIf="(claveCodigoPostal.invalid && (claveCodigoPostal.dirty || claveCodigoPostal.touched)) && claveCodigoPostal.errors.required">
+              <p class="caption status-danger">Ingresa la clave de código postal</p>
+            </ng-container>
+          </div>
+          <div class="col-lg-8 col-md-6 col-sm-12 form-group" *ngIf="codigosPostales.length != 0">
+            <label class="label" for="input_fraccionamiento">Fraccionamiento</label>
+            <nb-select fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario._idCodigoPostal" #codigoPostal="ngModel" name="tipo" id="input_fraccionamiento" required>
+              <nb-option *ngFor="let codigoPostal of codigosPostales" [value]="codigoPostal">
+                {{codigoPostal.d_asenta}}
+              </nb-option>
+            </nb-select>
+            <ng-container *ngIf="(codigoPostal.invalid && (codigoPostal.dirty || codigoPostal.touched)) && codigoPostal.errors.required">
+              <p class="caption status-danger">Por favor selecciona un fraccionamiento</p>
+            </ng-container>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoUsuario._idCodigoPostal">
+            <label class="label" for="input_calle">Calle</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el nombre de la calle" [(ngModel)]="nuevoUsuario.calle"
+                   #calle="ngModel" ngModel id="input_calle" name="calle" required>
+            <ng-container *ngIf="(calle.invalid && (calle.dirty || calle.touched)) && calle.errors.required">
+              <p class="caption status-danger">Por favor ingresa el nombre de la calle de la dirección</p>
+            </ng-container>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoUsuario._idCodigoPostal">
+            <label class="label" for="input_numero_exterior">Numero Exterior</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero exterior" [(ngModel)]="nuevoUsuario.numeroExterior"
+                   #numeroExterior="ngModel" ngModel id="input_numero_exterior" name="numeroExterior" required>
+            <ng-container *ngIf="(numeroExterior.invalid && (numeroExterior.dirty || numeroExterior.touched)) && numeroExterior.errors.required">
+              <p class="caption status-danger">Por favor ingresa el número interior de la dirección</p>
+            </ng-container>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoUsuario._idCodigoPostal">
+            <label class="label" for="input_numero_interior">Numero interior</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero interior" [(ngModel)]="nuevoUsuario.numeroInterior"
+                   #numeroInterior="ngModel" ngModel id="input_numero_interior" name="numeroInterior">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+            <label class="label" for="input_estado">Estado</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Estado" [(ngModel)]="nuevoUsuario._idCodigoPostal.d_estado"
+                   #d_estado="ngModel" ngModel id="input_estado" name="d_estado" disabled required>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+            <label class="label" for="input_ciudad">Ciudad</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ciudad" [(ngModel)]="nuevoUsuario._idCodigoPostal.d_ciudad"
+                   #d_ciudad="ngModel" ngModel id="input_ciudad" name="d_ciudad" disabled required>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+            <label class="label" for="input_estado">Municipio</label>
+            <input type="text" nbInput fullWidth shape="rectangle" placeholder="Municipio" [(ngModel)]="nuevoUsuario._idCodigoPostal.D_mnpio"
+                   #d_mnpio="ngModel" ngModel id="input_municipio" name="d_mnpio" disabled required>
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+            <button nbButton outline fullWidth status="danger">
+              CANCELAR
+            </button>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+            <button nbButton outline fullWidth status="success">
+              AGREGAR NUEVO USUARIO
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
 </nb-card>
+
+<!--
+<nb-stepper>
+  <nb-step [stepControl]="infoGeneralForm" label="Información General">
+  </nb-step>
+</nb-stepper>
+-->

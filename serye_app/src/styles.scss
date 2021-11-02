@@ -1,6 +1,7 @@
 @import 'themes';
 
 @import '~@nebular/theme/styles/globals';
+@import '~@nebular/bootstrap/styles/globals';
 
 @include nb-install() {
   @include nb-theme-global();
@@ -500,3 +501,10 @@ $subasta-pulso: rgb(255, 191, 0);
     margin: 0 0.5rem;
   }
 }
+
+/*<><><><><><><><><><><><><><><><>*/
+/*<><><><> M A R G E N E S <><><>*/
+/*<><><><><><><><><><><><><><><>*/
+.mt-2 { margin-top: 2vh }
+.mt-5 { margin-top: 5vh }
+.mt-10 { margin-top: 10vh }

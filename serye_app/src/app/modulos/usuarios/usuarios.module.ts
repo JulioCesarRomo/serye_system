@@ -2,7 +2,15 @@ import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import {UsuariosComponent} from "./usuarios.component";
 import {UsuariosRoutingModule} from "./usuarios-routing.module";
-import {NbButtonModule, NbCardModule, NbInputModule, NbStepperModule, NbTabsetModule} from "@nebular/theme";
+import {
+    NbButtonGroupModule,
+    NbButtonModule,
+    NbCardModule,
+    NbInputModule,
+    NbSelectModule,
+    NbStepperModule,
+    NbTabsetModule
+} from "@nebular/theme";
 import { PanelAdministracionUsuariosActivosComponent } from './panel-administracion-usuarios-activos/panel-administracion-usuarios-activos.component';
 import { PanelAdministracionUsuariosInactivosComponent } from './panel-administracion-usuarios-inactivos/panel-administracion-usuarios-inactivos.component';
 import {MatIconModule} from "@angular/material/icon";
@@ -20,6 +28,7 @@ import {AlertaModule} from "../../compartido/alerta/alerta.module";
 import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {DirectivasModule} from "../../compartido/directivas/directivas.module";
+import {NgxSpinnerModule} from "ngx-spinner";
 
 @NgModule({
   declarations: [
@@ -51,6 +60,9 @@ import {DirectivasModule} from "../../compartido/directivas/directivas.module";
         ReactiveFormsModule,
         MatSelectModule,
         DirectivasModule,
+        NbSelectModule,
+        NgxSpinnerModule,
+        NbButtonGroupModule,
     ]
 })
 export class UsuariosModule { }

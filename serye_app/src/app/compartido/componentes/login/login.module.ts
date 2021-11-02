@@ -10,6 +10,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatButtonModule} from "@angular/material/button";
 import {DirectivasModule} from "../../directivas/directivas.module";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {FlexModule} from "@angular/flex-layout";
 
 @NgModule({
   declarations: [
@@ -25,10 +26,11 @@ import {NgxSpinnerModule} from "ngx-spinner";
         MatInputModule,
         MatButtonModule,
         DirectivasModule,
-        NgxSpinnerModule
+        NgxSpinnerModule,
+        FlexModule
     ],
   bootstrap:    [ LoginComponent ]
 })
 export class LoginModule {
- 
+
 }

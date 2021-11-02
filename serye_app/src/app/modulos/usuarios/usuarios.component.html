@@ -4,13 +4,13 @@
     </nb-card-header>
     <nb-card-body>
         <div class="col-12">
-            <div fxLayout="row">
-                <button nbButton outline status="success" fxFlex="100" (click)="abrirAltaUsuarioModal()">
+            <div class="row">
+                <button nbButton outline status="success" (click)="abrirAltaUsuarioModal()">
                     <mat-icon>person_add</mat-icon>&nbsp;AGREGAR NUEVO USUARIO
                 </button>
             </div>
-            <div fxLayout="row">
-                <nb-card size="small" fxFlex="100">
+            <div class="row">
+                <nb-card size="small" class="100">
                     <nb-tabset fullWidth>
                         <nb-tab tabTitle="ACTIVOS">
                             <app-panel-administracion-usuarios-activos></app-panel-administracion-usuarios-activos>
