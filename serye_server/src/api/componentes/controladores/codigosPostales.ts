@@ -82,6 +82,7 @@ async function _obtenerCodigoPostal(_id: string){
 async function _filtrarCodigosPostalesPorClave(clave: string){
     return new Promise<ICodigoPostal[]>((resolve, reject) => {
         CodigoPostal.find({d_codigo: clave})
+            .sort({ d_asenta: 1 })
             .exec((err: NativeError, codigosPostales: ICodigoPostal[]) => {
                 if(err) {
                     reject({ codigo: 422, titulo: 'Error al obtener los codigos postales',

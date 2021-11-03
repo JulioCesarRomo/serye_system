@@ -1,4 +1,4 @@
 export const EMAIL_CORREOS = {
-    user: 'softweb.compras@gmail.com',
-    pass: 'Softweb2021'
+    user: 'julio-cesar-1997@hotmail.com',
+    pass: 'JulioCesar1997'
 };

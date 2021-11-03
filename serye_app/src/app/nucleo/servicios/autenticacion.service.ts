@@ -6,6 +6,8 @@ import { Observable } from 'rxjs/internal/Observable';
 import { map } from 'rxjs/operators';
 import { AjustesAplicacion } from '../../compartido/constantes/ajustes-aplicacion';
 import { WebSocketsService } from './web-sockets.service';
+import {TemasInterfaz} from "../../compartido/enumeraciones/temas-interfaz.enum";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
 
 const jwt = new JwtHelperService();
 class Token {
@@ -81,6 +83,12 @@ export class AutenticacionService {
     return this.tokenDesencriptado.nombre;
   }
 
+  public obtenerNombreCompleto(): string {
+    return `${this.tokenDesencriptado.nombre}
+            ${isNotNullOrUndefined(this.tokenDesencriptado.apepat) ? (` ` + this.tokenDesencriptado.apepat):''}
+            ${isNotNullOrUndefined(this.tokenDesencriptado.apemat) ? (` ` + this.tokenDesencriptado.apemat):''}`;
+  }
+
   public obtenerApepat(): string {
     return this.tokenDesencriptado.apepat;
   }
@@ -91,6 +99,17 @@ export class AutenticacionService {
 
   public obtenerNombreDeUsuario(): string {
     return this.tokenDesencriptado.usuario;
+  }
+
+  public obtenerNombreTemaInterfaz(): string {
+    console.log('TEMA INTERFAZ:', this.tokenDesencriptado);
+    switch (this.tokenDesencriptado.idTemaInterfaz){
+      case TemasInterfaz.Claro: return 'default';
+      case TemasInterfaz.Corporativo: return 'corporate';
+      case TemasInterfaz.Cosmico: return 'cosmic';
+      case TemasInterfaz.Oscuro: return 'dark';
+      default: return 'default';
+    }
   }
 
   public destruirToken() {

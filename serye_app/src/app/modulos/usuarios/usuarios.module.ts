@@ -5,11 +5,11 @@ import {UsuariosRoutingModule} from "./usuarios-routing.module";
 import {
     NbButtonGroupModule,
     NbButtonModule,
-    NbCardModule,
+    NbCardModule, NbFormFieldModule, NbIconModule,
     NbInputModule,
     NbSelectModule,
     NbStepperModule,
-    NbTabsetModule
+    NbTabsetModule, NbToggleModule, NbTooltipModule, NbUserModule
 } from "@nebular/theme";
 import { PanelAdministracionUsuariosActivosComponent } from './panel-administracion-usuarios-activos/panel-administracion-usuarios-activos.component';
 import { PanelAdministracionUsuariosInactivosComponent } from './panel-administracion-usuarios-inactivos/panel-administracion-usuarios-inactivos.component';
@@ -29,13 +29,17 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatSelectModule} from "@angular/material/select";
 import {DirectivasModule} from "../../compartido/directivas/directivas.module";
 import {NgxSpinnerModule} from "ngx-spinner";
+import {FlexModule} from "@angular/flex-layout";
+import { EditarFotoUsuarioModalComponent } from './editar-foto-usuario-modal/editar-foto-usuario-modal.component';
+import {ImageCropperModule} from "ngx-image-cropper";
 
 @NgModule({
   declarations: [
     UsuariosComponent,
     PanelAdministracionUsuariosActivosComponent,
     PanelAdministracionUsuariosInactivosComponent,
-    AltaUsuarioModalComponent
+    AltaUsuarioModalComponent,
+    EditarFotoUsuarioModalComponent
   ],
     imports: [
         CommonModule,
@@ -63,6 +67,13 @@ import {NgxSpinnerModule} from "ngx-spinner";
         NbSelectModule,
         NgxSpinnerModule,
         NbButtonGroupModule,
+        NbUserModule,
+        FlexModule,
+        NbTooltipModule,
+        ImageCropperModule,
+        NbIconModule,
+        NbFormFieldModule,
+        NbToggleModule,
     ]
 })
 export class UsuariosModule { }

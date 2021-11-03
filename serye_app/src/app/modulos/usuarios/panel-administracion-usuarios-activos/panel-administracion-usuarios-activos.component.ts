@@ -14,6 +14,7 @@ import {Usuario} from "../../../compartido/modelos/usuario.model";
 import {PaginadorComponent} from "../../../compartido/componentes/paginador/paginador.component";
 import {PaginadorMediano} from "../../../compartido/constantes/opciones-tamanio-paginador.constant";
 import {Paginador} from "../../../compartido/modelos/paginador.model";
+import {Subscription} from "rxjs/internal/Subscription";
 @Component({
   selector: 'app-panel-administracion-usuarios-activos',
   templateUrl: './panel-administracion-usuarios-activos.component.html',
@@ -27,6 +28,8 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
   empleadoExpandido: Usuario | null;
   filtro: string = '';
   totalUsuarios: number = 0;
+  //PARA CUANDO SE AGREGA UN NUEVO USUARIO
+  subscripcionAgregarNuevoUsuario: Subscription;
   constructor(
       private router: Router,
       private dialog: MatDialog,
@@ -34,15 +37,16 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
       private _serEventos: EventosService,
       private _serUsuarios: UsuariosService,
       private _serSpinner: NgxSpinnerService,
-      //private _serCatalogosSAT: CatalogosDelSATService,
       public _serAutenticacion: AutenticacionService,
       public _serFuncionesGenerales: FuncionesGeneralesService
-      //public _serTemas: TemasService,
-      //public _serPermisosGlobales: PermisosGlobalesService,
   ) { }
 
   ngOnInit(): void {
-    this.obtenerUsuarios(0, 10);
+      this.obtenerUsuarios(0, 10);
+      this.subscripcionAgregarNuevoUsuario = this._serEventos.obtenerUsuariosActivosEventoObservable$.subscribe(() => {
+          console.log('OBTENIENDO USUARIOS NUEVAMENTE')
+          this.obtenerUsuarios(0, 10);
+      });
   }
 
   obtenerUsuarios(inicio: number, fin: number) {
@@ -72,7 +76,7 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Usuario>(empleados);
   }
 
-  buscarEmpleado(): void {
+  buscarUsuario(): void {
     this._serEventos.reiniciarIndicePaginador();
     this.obtenerUsuarios(this.paginador.inicio, this.paginador.fin);
   }
@@ -90,7 +94,7 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
             this._serUsuarios.actualizarEstadoUsuario(empleadoActualizar._id, false).subscribe(
                 () => {
                   this._serSpinner.hide();
-                  this.buscarEmpleado();
+                  this.buscarUsuario();
                   this._serAlertas.exito('Completado', 'Usuario eliminado correctamente', 3000);
                 },
                 (err: HttpErrorResponse) => {

@@ -13,6 +13,7 @@ import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AlertasService} from "../../../nucleo/servicios/alertas.service";
 import {TemasInterfaz} from "../../../compartido/enumeraciones/temas-interfaz.enum";
+import {TEMAS_INTERFAZ} from "../../../../../../serye_server/src/api/constantes/temas-interfaz.constant";
 
 @Component({
   selector: 'ngx-header',
@@ -25,29 +26,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
   userPictureOnly: boolean = false;
   user: any;
 
-  temas = [
-    {
-      id: TemasInterfaz.Claro,
-      value: 'default',
-      name: 'Claro',
-    },
-    {
-      id: TemasInterfaz.Corporativo,
-      value: 'corporate',
-      name: 'Corporativo',
-    },
-    {
-      id: TemasInterfaz.Cosmico,
-      value: 'cosmic',
-      name: 'Cosmico',
-    },
-    {
-      id: TemasInterfaz.Oscuro,
-      value: 'dark',
-      name: 'Oscuro',
-    },
-
-  ];
+  temas = TEMAS_INTERFAZ;
 
   temaActual = 'default';
 
@@ -55,16 +34,16 @@ export class HeaderComponent implements OnInit, OnDestroy {
 
   constructor(
       private router: Router,
+      private userService: UserData,
       private _serAlertas: AlertasService,
-      private _serSpinner: NgxSpinnerService,
-      private _serWebSockets: WebSocketsService,
-      private sidebarService: NbSidebarService,
       private nbMenuService: NbMenuService,
       private themeService: NbThemeService,
-      private userService: UserData,
       private layoutService: LayoutService,
+      private _serSpinner: NgxSpinnerService,
+      private sidebarService: NbSidebarService,
+      private _serWebSockets: WebSocketsService,
+      public _serAutenticacion: AutenticacionService,
       private breakpointService: NbMediaBreakpointsService,
-      private _serAutenticacion: AutenticacionService,
       @Inject(NB_WINDOW) private window
   ) {
   }
@@ -72,18 +51,15 @@ export class HeaderComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.nbMenuService.onItemClick()
         .pipe(
-            filter(({ tag }) => tag === 'my-context-menu'),
+            filter(({ tag }) => tag === 'menu_perfil_usuario'),
             map(({ item: { title } }) => title),
         )
         .subscribe(title => {
           if(title == 'Perfil') console.log('Perfil')
           else this.cerrarSesion();
         });
-    this.temaActual = this.themeService.currentTheme;
-    this.user.name = this._serAutenticacion.obtenerNombreDeUsuario();
-    /*this.userService.getUsers()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((users: any) => this.user = users.nick);*/
+    this.themeService.changeTheme(this._serAutenticacion.obtenerNombreTemaInterfaz());
+    this.temaActual = this._serAutenticacion.obtenerNombreTemaInterfaz()
     const { xl } = this.breakpointService.getBreakpointsMap();
     this.themeService.onMediaQueryChange()
       .pipe(
@@ -98,6 +74,7 @@ export class HeaderComponent implements OnInit, OnDestroy {
         takeUntil(this.destroy$),
       )
       .subscribe(themeName => this.temaActual = themeName);
+    /*this.cambiarTemaInterfaz(this._serAutenticacion.obtenerNombreTemaInterfaz())*/
   }
 
   ngOnDestroy() {
@@ -105,8 +82,8 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this.destroy$.complete();
   }
 
-  changeTheme(themeName: string) {
-    this.themeService.changeTheme(themeName);
+  cambiarTemaInterfaz(nombreDelTema: string) {
+    this.themeService.changeTheme(nombreDelTema);
   }
 
   toggleSidebar(): boolean {
@@ -124,13 +101,14 @@ export class HeaderComponent implements OnInit, OnDestroy {
     this._serSpinner.show(undefined, SpinnerCargaCirculos)
     this._serAutenticacion.cerrarSesionUsuario().subscribe(
         (resp) => {
-          this._serWebSockets.cerrarSesionWS().then(
-              () => {
-                localStorage.removeItem('tema-actual');
+          /*this._serWebSockets.cerrarSesionWS().then(
+              () => {*/
+                localStorage.removeItem('token_aut');
+                localStorage.removeItem('id_tema_interfaz');
                 this.router.navigate(['/login']);
                 this._serSpinner.hide();
                 this._serAutenticacion.destruirToken();
-              })
+              /*})*/
         },
         (err: HttpErrorResponse) => {
           this._serSpinner.hide();

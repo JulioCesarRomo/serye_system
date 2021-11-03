@@ -74,7 +74,7 @@ export class WebSocketsService {
   cerrarSesionWS() {
     return new Promise<void>((resolve, reject) => {
       this.emitir('cerrar-sesion', this.usuario, resp => {
-        localStorage.removeItem('usr-swws');
+        localStorage.removeItem('token_aut');
         resolve();
       });
     });

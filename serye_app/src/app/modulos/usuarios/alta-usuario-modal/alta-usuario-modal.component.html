@@ -7,6 +7,15 @@
     <form #nuevoUsuarioForm="ngForm" class="step-container">
       <div class="container-fluid">
           <div class="row">
+            <!--<div class="col-lg-2 col-md-2 col-sm-12" fxLayoutAlign="center center">
+              <nb-user size="large" nbTooltip="Click para editar" nbTooltipPlacement="bottom" nbTooltipStatus="primary"
+                       style="cursor: pointer"
+                       (click)=""
+                       name="Jonh Doe"
+                       title="Engineer"
+                       onlyPicture>
+              </nb-user>
+            </div>-->
               <div class="col-lg-6 col-md-6 col-sm-12">
                 <label class="label" for="select_tipo_usuario">Tipo de usuario</label>
                 <div class="w-100">
@@ -134,10 +143,47 @@
             </div>
           </div>-->
         <div class="row">
+          <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+            <nb-form-field>
+              <label class="label" for="input_contrasena">Contraseña</label>
+              <input nbInput fullWidth shape="rectangle" type="password" placeholder="Ingresa una contraseña" [(ngModel)]="contrasena" id="input_contrasena"
+                     #contrasenaModel="ngModel" name="contrasena" pattern="{{ ExpresionesRegulares[20].expresion }}" (blur)="validarContrasenas()" required>
+              <ng-container *ngIf="(contrasenaModel.invalid && (contrasenaModel.dirty || contrasenaModel.touched)) && contrasenaModel.errors.required">
+                <p class="caption status-danger">Por favor ingresa la contraseña</p>
+              </ng-container>
+              <ng-container *ngIf="(contrasenaModel.invalid && (contrasenaModel.dirty || contrasenaModel.touched)) && contrasenaModel.errors.pattern">
+                <p class="caption status-danger" *ngIf="nombre.errors?.required">{{ ExpresionesRegulares[20].mensaje }}</p>
+              </ng-container>
+            </nb-form-field>
+          </div>
+          <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+            <nb-form-field>
+              <label class="label" for="input_contrasena">Ingresa contraseña nuevamente</label>
+              <!--<nb-icon nbPrefix icon="at-outline" pack="eva" *ngIf="contrasenasIguales && contrasena != '' && auxContrasena != ''" style="color: chartreuse"></nb-icon>
+              <nb-icon nbPrefix icon="at-outline" pack="eva" *ngIf="!contrasenasIguales && contrasena != '' && auxContrasena != ''" style="color: #f33927" nbTooltip="Las contraseñas no coinciden" nbTooltipPlacement="top" nbTooltipStatus="danger"></nb-icon>-->
+              <input nbInput fullWidth shape="rectangle" type="password" placeholder="Ingresa la contraseña nuevamente"
+                     [(ngModel)]="auxContrasena" #auxContrasenaModel="ngModel" ngModel name="auxContrasena"
+                     pattern="{{ ExpresionesRegulares[20].expresion }}" (blur)="validarContrasenas()" required>
+              <ng-container *ngIf="(auxContrasenaModel.invalid && (auxContrasenaModel.dirty || auxContrasenaModel.touched)) && auxContrasenaModel.errors.required">
+                <p class="caption status-danger">Por favor ingresa la contraseña nuevamente</p>
+              </ng-container>
+              <ng-container *ngIf="(auxContrasenaModel.invalid && (auxContrasenaModel.dirty || auxContrasenaModel.touched)) && auxContrasenaModel.errors.pattern">
+                <p class="caption status-danger" *ngIf="nombre.errors?.required">{{ ExpresionesRegulares[20].mensaje }}</p>
+              </ng-container>
+              <ng-container *ngIf="!contrasenasIguales && contrasena != '' && auxContrasena != ''">
+                <p class="caption status-danger">Las contaseñas no coinciden</p>
+              </ng-container>
+            </nb-form-field>
+          </div>
+        </div>
+        <div class="row">
+          <nb-toggle [(ngModel)]="nuevoUsuario.agregarDireccion" status="success" name="agregarDireccion" class="mt-2" (click)="imprimir()">¿Agregar dirección?</nb-toggle>
+        </div>
+        <div class="row" *ngIf="nuevoUsuario.agregarDireccion">
           <div class="col-lg-4 col-md-6 col-sm-12 form-group">
             <label class="label" for="input_codigo_postal">Codigo postal</label>
             <input type="text" nbInput fullWidth shape="rectangle" placeholder="Código postal" #claveCodigoPostal="ngModel"
-                   (blur)="filtrarCodigosPostales(claveCodigoPostal.value)" ngModel id="input_codigo_postal" name="claveCodigoPostal" required>
+                   (ngModelChange)="filtrarCodigosPostales(claveCodigoPostal.value)" ngModel id="input_codigo_postal" name="claveCodigoPostal" required>
             <ng-container *ngIf="(claveCodigoPostal.invalid && (claveCodigoPostal.dirty || claveCodigoPostal.touched)) && claveCodigoPostal.errors.required">
               <p class="caption status-danger">Ingresa la clave de código postal</p>
             </ng-container>
@@ -154,7 +200,7 @@
             </ng-container>
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="nuevoUsuario.agregarDireccion">
           <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoUsuario._idCodigoPostal">
             <label class="label" for="input_calle">Calle</label>
             <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el nombre de la calle" [(ngModel)]="nuevoUsuario.calle"
@@ -177,7 +223,7 @@
                    #numeroInterior="ngModel" ngModel id="input_numero_interior" name="numeroInterior">
           </div>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="nuevoUsuario.agregarDireccion">
           <div class="col-lg-4 col-md-4 col-sm-12 form-group">
             <label class="label" for="input_estado">Estado</label>
             <input type="text" nbInput fullWidth shape="rectangle" placeholder="Estado" [(ngModel)]="nuevoUsuario._idCodigoPostal.d_estado"
@@ -196,12 +242,13 @@
         </div>
         <div class="row mt-2">
           <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-            <button nbButton outline fullWidth status="danger">
+            <button nbButton outline fullWidth status="danger" (click)="referenciaDialogo.close()">
               CANCELAR
             </button>
           </div>
           <div class="col-lg-6 col-md-6 col-sm-12 form-group">
-            <button nbButton outline fullWidth status="success">
+            <button nbButton outline fullWidth status="success" (click)="guardarNuevoUsuario()"
+                    [disabled]="nuevoUsuarioForm.invalid || nuevoUsuario.tipo == null || (!contrasenasIguales && contrasena != '' && auxContrasena != '')">
               AGREGAR NUEVO USUARIO
             </button>
           </div>

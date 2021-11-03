@@ -30,7 +30,7 @@ usuariosRutas.get('/num-usuarios', autenticacionMiddleware, UsuariosCtrl.obtener
 //usuariosRutas.get('', autenticacionMiddleware, UsuariosCtrl.obtenerUsuarios);
 
 /* POST */
-//usuariosRutas.post('', autenticacionMiddleware, UsuariosCtrl.guardarUsuario);
+usuariosRutas.post('', autenticacionMiddleware, UsuariosCtrl.guardarNuevoUsuario);
 
 /* PUT */
 //usuariosRutas.put('/:idUsuario', autenticacionMiddleware, rootVendedorAdministradorMiddleware, UsuariosCtrl.actualizarUsuario);

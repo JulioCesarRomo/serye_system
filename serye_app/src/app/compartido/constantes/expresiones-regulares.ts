@@ -123,7 +123,7 @@ export const ExpresionesRegulares = [
         //Contraseñas
         id: 20,
         expresion: '^([A-ZÑÁÉÍÓÚa-zñáéíóú0-9_-]|[$]|[%]|[&]|[#]|[.]){8,24}$',
-        mensaje: 'Este campo debe ser de 8 - 24 caractéres y admite letras, digitos, guion bajo, guion alto, punto y algunos caracteres especiales ($, %, & o #)'
+        mensaje: 'De 8 - 24 caractéres, admite letras, digitos, guion bajo/alto, punto y algunos caracteres especiales ($, %, & o #)'
     },
     {
         //Cantidades enteras

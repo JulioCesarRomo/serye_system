@@ -35,6 +35,9 @@ export class EventosService {
   private moverScrollPrincipalEvento = new Subject<any>();
   public moverScrollPrincipalEventoObservable$ = this.moverScrollPrincipalEvento.asObservable();
 
+  //NUEVAS AGREGADAS
+  private obtenerUsuariosActivosEvento = new Subject<any>();
+  public obtenerUsuariosActivosEventoObservable$ = this.obtenerUsuariosActivosEvento.asObservable();
   constructor() { }
 
   /*public enviarMetasDeVenta(metasDeVenta: MetaDeVenta[]) {
@@ -76,4 +79,11 @@ export class EventosService {
   public moverScrollPrincipal(x: number, y: number) {
     this.moverScrollPrincipalEvento.next({ x, y })
   }
+
+
+  //NUEVAS AGREGADAS
+  public agregarNuevoUsuario() {
+    this.obtenerUsuariosActivosEvento.next();
+  }
+
 }

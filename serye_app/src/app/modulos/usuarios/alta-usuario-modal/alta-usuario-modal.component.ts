@@ -16,6 +16,7 @@ import {NgxSpinnerService} from "ngx-spinner";
 import {CodigosPostalesService} from "../../../nucleo/servicios/codigosPostales.service";
 import {SpinnerCargaCirculos} from "../../../compartido/constantes/globales";
 import {CodigoPostal} from "../../../compartido/modelos/codigoPostal.model";
+import * as CryptoJS from 'crypto-js';
 @Component({
   selector: 'app-alta-usuario-modal',
   templateUrl: './alta-usuario-modal.component.html',
@@ -26,6 +27,10 @@ export class AltaUsuarioModalComponent implements OnInit {
   @Input() title: string;
   ExpresionesRegulares = ExpresionesRegulares;
   nuevoUsuario: Usuario = new Usuario();
+  contrasena: string = '';
+  auxContrasena: string = '';
+  contrasenasIguales: boolean;
+  contrasenaEncriptada: string = '';
 
   @ViewChild('nuevoUsuarioForm') infoGeneralForm: FormGroup;
   TiposUsuario = TiposUsuario;
@@ -42,13 +47,13 @@ export class AltaUsuarioModalComponent implements OnInit {
       public _serAutenticacion: AutenticacionService,
       private _serCodigosPostales: CodigosPostalesService,
       public _serFuncionesGenerales: FuncionesGeneralesService,
-      protected ref: NbDialogRef<AltaUsuarioModalComponent>
+      public referenciaDialogo: NbDialogRef<AltaUsuarioModalComponent>
   ) { }
 
   ngOnInit(): void {
   }
-  imprimir(value){
-    console.log(value)
+  imprimir(){
+    console.log(this.nuevoUsuario.agregarDireccion)
   }
   //Validar si el nombre de usuario ya existe
   existeNombreUsuario(): void {
@@ -78,16 +83,79 @@ export class AltaUsuarioModalComponent implements OnInit {
       this.nuevoUsuario.rfc = this.nuevoUsuario.rfc.toUpperCase();
     }
   }
+  //VALIDAR QUE LAS CONTRASEÑAS SEAN IGUALES
+  validarContrasenas(){
+    if(this.contrasena === this.auxContrasena) {
+      this.contrasenasIguales = true;
+      this.contrasenaEncriptada = CryptoJS.SHA256(this.contrasena).toString(CryptoJS.enc.Hex);
+    } else {
+      this.contrasenasIguales = false;
+    }
+  }
+
   //SEGUNDO STEP: Dirección
   filtrarCodigosPostales(claveCodigoPostal: string){
+    if(claveCodigoPostal.length == 5){
+      this.nuevoUsuario._idCodigoPostal = new CodigoPostal();
+      this._serSpinner.show(undefined, SpinnerCargaCirculos);
+      this._serCodigosPostales.filtrarCodigoPostal(claveCodigoPostal).subscribe(
+          (codigosPostales: CodigoPostal[]) => {
+            this.codigosPostales = codigosPostales;
+            this._serSpinner.hide();
+          }, (err: HttpErrorResponse) => {
+            this._serSpinner.hide();
+            this._serAlertas.error(err.error.titulo, err.error.detalles, 3000);
+          }
+      )
+    }
+  }
+  //AGREGAR NUEVO USUARIO
+  /* METODOS PARA GUARDAR LOS DATOS DEL USUARIO */
+  guardarNuevoUsuario(): void {
     this._serSpinner.show(undefined, SpinnerCargaCirculos);
-    this._serCodigosPostales.filtrarCodigoPostal(claveCodigoPostal).subscribe(
-      (codigosPostales: CodigoPostal[]) => {
-        this.codigosPostales = codigosPostales;
-        this._serSpinner.hide();
-      }, (err: HttpErrorResponse) => {
-        this._serAlertas.error(err.error.titulo, err.error.detalles, 3000);
-      }
-    )
+    /*if (this.imagenFotoRecortada == '') {
+      this.usuarioNuevo.rutaFoto = AjustesAplicacion.RutasDefault.foto.rutaFoto;
+      this.usuarioNuevo.nombreFoto = AjustesAplicacion.RutasDefault.foto.nombreFoto;
+    }*/
+    this._serUsuarios.guardarUsuario(this.prepararDatosUsuario()).subscribe(
+        (usuario: Usuario) => {
+          this._serSpinner.hide();
+          /*if (this.imagenFotoRecortada !== '') {
+            const foto = new FormData();
+            const fotografia = this._serImagenes.convertirImagen(this.imagenFotoRecortada, 0);
+            foto.append('foto', fotografia);
+            this.guardarFotografiaUsuario(usuario._id, foto);
+          }*/
+          this._serAlertas.exito('Usuario guardado con éxito', `Se ha creado exitosamente el usuario ${usuario.usuario}`, 3000)
+          this.referenciaDialogo.close(usuario);
+        },
+        (err: HttpErrorResponse) => {
+          this._serSpinner.hide();
+          this._serAlertas.error(err.error.titulo, err.error.detalles, 3000);
+        }
+    );
+  }
+  prepararDatosUsuario(): Usuario {
+    let usuario = new Usuario();
+    usuario.tipo = this.nuevoUsuario.tipo;
+    usuario.usuario = this.nuevoUsuario.usuario;
+    usuario.nombre = this.nuevoUsuario.nombre;
+    usuario.apepat = this.nuevoUsuario.apepat;
+    usuario.apemat = this.nuevoUsuario.apemat;
+    usuario.agregarDireccion = this.nuevoUsuario.agregarDireccion;
+    usuario.telefono = this.nuevoUsuario.telefono;
+    if (usuario.agregarDireccion) {
+      usuario._idCodigoPostal = this.nuevoUsuario._idCodigoPostal;
+      usuario.calle = this.nuevoUsuario.calle;
+      usuario.numeroExterior = this.nuevoUsuario.numeroExterior;
+      if(isNotNullOrUndefined(usuario.numeroInterior)) usuario.numeroInterior = this.nuevoUsuario.numeroInterior;
+    }
+    usuario.correo = this.nuevoUsuario.correo;
+    usuario.contrasenas.push({
+      contrasena: this.contrasenaEncriptada,
+      fechaRegistro: new Date(Date.now()),
+      activo: true
+    })
+    return usuario;
   }
 }

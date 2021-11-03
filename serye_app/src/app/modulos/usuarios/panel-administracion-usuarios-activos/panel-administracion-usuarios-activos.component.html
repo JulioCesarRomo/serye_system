@@ -1,9 +1,9 @@
 <div fxLayout="row">
-    <mat-form-field fxFlex="100" appearance="legacy" class="col-12">
-        <mat-label>Buscar</mat-label>
-        <input matInput nbInput fullWidth [(ngModel)]="filtro" (keyup)="buscarEmpleado()" placeholder="Ingresa tu búsqueda">
+    <nb-form-field class="col-12">
+        <label class="label" for="input_busqueda">Buscar</label>
+        <input nbInput fullWidth shape="rectangle" type="text" [(ngModel)]="filtro" (keyup)="buscarUsuario()" placeholder="Ingresa tu búsqueda" id="input_busqueda">
         <mat-icon matSuffix>search</mat-icon>
-    </mat-form-field>
+    </nb-form-field>
 </div>
 <!--<div class="full-name-inputs">
     <input type="text" nbInput fullWidth placeholder="Nick">

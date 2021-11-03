@@ -24,7 +24,7 @@ export class Usuario {
     nombre: string;
     apepat: string;
     apemat?: string;
-    omitirDireccion?: boolean;
+    agregarDireccion?: boolean;
     correo: string;
     nombreFoto?: string;
     rutaFoto?: string;
@@ -49,7 +49,7 @@ export class Usuario {
     activo?: boolean;
 
     constructor() {
-        this.omitirDireccion = true;
+        this.agregarDireccion = false;
         this.telefonos = [];
         this.tipo = TiposUsuario.Empleado;
         //this.personalizacion = new Personalizacion();

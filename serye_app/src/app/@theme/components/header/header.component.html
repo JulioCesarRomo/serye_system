@@ -1,3 +1,4 @@
+<ngx-spinner style="position: absolute"></ngx-spinner>
 <div class="header-container">
   <div class="logo-container">
     <a (click)="toggleSidebar()" href="#" class="sidebar-toggle">
@@ -5,7 +6,7 @@
     </a>
     <a class="logo" href="#" (click)="navigateHome()">SERYE</a>
   </div>
-  <nb-select [selected]="temaActual" (selectedChange)="changeTheme($event)" status="primary">
+  <nb-select [selected]="temaActual" (selectedChange)="cambiarTemaInterfaz($event)" status="primary">
     <nb-option *ngFor="let theme of temas" [value]="theme.value"> {{ theme.name }}</nb-option>
   </nb-select>
 </div>
@@ -18,7 +19,7 @@
     <nb-action class="control-item" icon="email-outline"></nb-action>
     <nb-action class="control-item" icon="bell-outline"></nb-action>
     <nb-action class="user-action">
-      <nb-user name="Nikita Poltoratsky"
+      <nb-user [name]="_serAutenticacion.obtenerNombre()"
                title="full-stack developer"
                [nbContextMenu]="menuItems"
                nbContextMenuTag="my-context-menu">

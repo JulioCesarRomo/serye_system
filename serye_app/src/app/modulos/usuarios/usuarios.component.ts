@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {MatDialog} from '@angular/material/dialog';
 import {AltaUsuarioModalComponent} from './alta-usuario-modal/alta-usuario-modal.component';
-import {NbDialogService, NbWindowService} from "@nebular/theme";
+import {NbDialogService} from "@nebular/theme";
+import {isNotNullOrUndefined} from "codelyzer/util/isNotNullOrUndefined";
+import {EventosService} from "../../nucleo/eventos.service";
 
 @Component({
   selector: 'app-usuarios',
@@ -11,7 +12,8 @@ import {NbDialogService, NbWindowService} from "@nebular/theme";
 export class UsuariosComponent implements OnInit {
 
   constructor(
-      private dialogService: NbDialogService,
+      private _serEventos: EventosService,
+      private dialogService: NbDialogService
   ) { }
 
   ngOnInit(): void {
@@ -23,13 +25,8 @@ export class UsuariosComponent implements OnInit {
         {
           context: 'this is some additional data passed to dialog',
           closeOnBackdropClick: false,
-        });
-    /*referenciaModal.afterClosed().subscribe(async empleado => {
-      if (empleado) {
-        this._serEventos.reiniciarIndicePaginador();
-        this.obtenerEmpleados(this.paginador.inicio, this.paginador.fin);
-        this._serEventos.obtenerNuevoNumeroElementos(true);
-      }
-    });*/
+        }).onClose.subscribe(nuevoUsuario => {
+            if(isNotNullOrUndefined(nuevoUsuario)) this._serEventos.agregarNuevoUsuario();
+    });
   }
 }

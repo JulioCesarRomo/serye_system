@@ -1,0 +1,32 @@
+<ngx-spinner></ngx-spinner>
+<div class="container">
+    <div fxLayout="column">
+        <div fxLayout="row">
+            <div fxFlex="100" class="dropzone" *ngIf="eventoCambioImagenLogotipo.length === 0">
+                <input style="display: none;" type="file" accept="image/png, image/jpeg" (change)="cambioArchivoEventoLogo($event)" #imagen/>
+                <mat-icon class="btn-upload-image" (click)="imagen.click()">cloud_upload</mat-icon><br>
+                <button mat-button mat-raised-button class="btn-exito" (click)="imagen.click()">Buscar imagen</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container" *ngIf="eventoCambioImagenLogotipo.length != 0">
+    <div fxLayout="column" fxLayoutAlign="space-around" fxLayoutGap="10px" *ngIf="eventoCambioImagenLogotipo.length != 0">
+        <div fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="10px">
+            <div fxFlex="100" fxLayoutAlign="center center">
+                <image-cropper *ngIf="eventoCambioImagenLogotipo" [imageChangedEvent]="eventoCambioImagenLogotipo" style="max-height: 300px"
+                               [maintainAspectRatio]="true" [aspectRatio]="1 / 1" format="jpg"
+                               (imageCropped)="imagenRecortada($event)" (imageLoaded)="imagenCargada()"
+                               (cropperReady)="cortadorListo()" (loadImageFailed)="cargarImagenFallida()">
+                </image-cropper>
+            </div>
+            <div fxFlex="100" fxLayoutAlign="center center">
+                <img [src]="imagenLogoRecortada" style="width: 300px; height: 300px"/>
+            </div>
+        </div>
+        <div fxLayout="row" fxLayoutAlign="space-around" fxLayoutGap="10px">
+            <button mat-icon-button mat-raised-button color="primary" (click)="actualizarFotoPerfil()" matTooltip="Agregar imagen"><mat-icon>done</mat-icon></button>
+            <button mat-icon-button mat-raised-button color="warn" matTooltip="Eliminar imagen" (click)="eventoCambioImagenLogotipo = ''"><mat-icon>close</mat-icon></button>
+        </div>
+    </div>
+</div>

@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import {EMAIL_CORREOS} from "../../constantes/email-correos.constant";
 import {IUsuario, Usuario} from "../modelos/usuario.model";
 import {NativeError} from "mongoose";
+import {TemasInterfaz} from "../../enumeraciones/temas-interfaz.enum";
 
 
 const transporter = nodemailer.createTransport({
@@ -35,6 +36,24 @@ export let existeNombreUsuario = (req: Request, res: Response) => {
         else return res.status(200).json({ existe: false })
     })
 }
+
+/*** POST ***/
+//GUARDAR NUEVO USUARIO
+export let guardarNuevoUsuario = async (req: Request, res: Response) => {
+    try {
+        const nuevoUsuario: IUsuario = new Usuario(req.body);
+        nuevoUsuario.fechaRegistro = new Date(Date.now());
+        nuevoUsuario.idTemaInterfaz = TemasInterfaz.Claro;
+        nuevoUsuario._idUsuario = res.locals.usuario._id;
+        const nuevoUsuarioGuardado: IUsuario =  await _guardarNuevoUsuario(nuevoUsuario);
+        await _enviarCorreoBienvenidaNuevoUsuario(nuevoUsuario);
+        return res.status(200).json(nuevoUsuarioGuardado);
+    } catch (err) {
+        console.log(err);
+        return res.status(err.codigo).send({titulo: err.titulo, detalles: err.detalles});
+    }
+}
+
 /*** GET ***/
 function _obtenerUsuariosFiltradosAdministradorEmpleado(filtro: string, activo: boolean, inicio: number, fin: number, res: Response) {
     if (!inicio && !fin) {
@@ -137,4 +156,112 @@ function _obtenerNumUsuariosFiltradosAdministradorEmpleado(filtro: string, activ
             if (!resultado[0]) return res.status(200).json(0);
             else return res.status(200).json(resultado[0].total);
         })
+}
+/*** POST ***/
+//GUARDAR NUEVO USUARIO
+async function _guardarNuevoUsuario(nuevoUsuario: IUsuario) {
+    return new Promise<IUsuario>((resolve, reject) => {
+        // @ts-ignore
+        nuevoUsuario.save((err: NativeError, nuevoAccesoGuardado: IUsuario) => {
+            if(err) {
+                console.log(err);
+                reject({ codigo: 422, titulo: 'Error al registrar el usuario',
+                    detalles: 'Ocurrio un error al registrar el nuevo usuario, por favor intentalo de nuevo mas tarde'});
+            } else if (nuevoAccesoGuardado) resolve(nuevoAccesoGuardado)
+            else reject({ codigo: 422, titulo: 'Error interno al registrar el usuario',
+                    detalles: 'Ocurrio un error interno al registrar el usuario, por favor intentalo más tarde'});
+        });
+    });
+}
+//ENVIAR CORREO DE BIENVENIDA AL NUEVO USUARIO
+export async function _enviarCorreoBienvenidaNuevoUsuario(nuevoUsuario: IUsuario) {
+    return new Promise<void>(async (resolve, reject) => {
+        const mailOptions = {
+            from: '"Solicitud de contacto 👻" <julio-cesar-1997@hotmail.com>', // sender address
+            to: nuevoUsuario.correo, // list of receivers
+            subject: "Bienvenido a SERYE !!! 👻" , // Subject line
+            html:
+                `<!DOCTYPE html>
+                  <html lang="en">
+                  <style type="text/css">
+                    body { margin: auto }
+                    .contenedor-principal {
+                        margin: auto; width: 50%; padding: 10px;
+                    }
+                    table {width: 100%; border: none;}
+                    </style>
+                  <head>
+                    <meta charset="UTF-8">
+                    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                    <title>Document</title>
+                  </head>
+                  <link href='https://fonts.googleapis.com/css?family=Raleway' rel='stylesheet'>
+                  <body>
+                  <div class="contenedor-general">
+                    <table style="font-weight: bold;">
+                      <th align="center">
+                       <div style="background-color: #0792d8; width: 50%; height: 13px;
+                       border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;"></div>
+                      </th>
+                      <tbody>
+                        <tr>
+                          <td align="center">
+                            <img src="https://serye.net:5529/default/logo.png" alt="serye.net" width="50%">
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                              <div style="width: 75%; height: 2pt; background-color: black; opacity: 0.2;"></div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <span style="color: #3B5998; font-size: 21pt; font-family: 'Montserrat', sans-serif;">
+                              Nueva solicitud de contacto
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                              <span style="color: #222f41; font-size: 20pt; font-weight: 500; font-family: Montserrat, Semi-bold, sans-serif;">
+                              Bienvenido ` + nuevoUsuario.nombre + (nuevoUsuario.apepat != '' ? ` ${nuevoUsuario.apemat}`:'') + `!!!.
+                              Se muestran detalles de la solicitud.
+                              </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <div style="width: 113px; height: 2.5pt; background-color: rgb(22, 204, 22); opacity: 0.7;"></div>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <span style="color: #379bd2; font-size: 20pt; font-family: 'Raleway', sans-serif;">
+                                <a>https://serye.net</a>
+                            </span>
+                          </td>
+                        </tr>
+                        <tr>
+                          <td align="center">
+                            <div style="background-color: #0792d8; width: 75%; height: 13px; border-top-right-radius: 10px; border-top-left-radius: 10px;"></div>
+                          </td>
+                        </tr>                      
+                      </tbody>
+                    </table>
+                  </div>
+                  <div style="margin: auto; padding: 10px">
+                  </div>
+                  </body>
+                  </html>`,
+        };
+        //@ts-ignore
+        transporter.sendMail(mailOptions, (err: any, info: string) => {
+            if(err) {
+                console.log(err)
+                resolve();
+            }
+            else if(info) resolve();
+            else resolve();
+        });
+    });
 }

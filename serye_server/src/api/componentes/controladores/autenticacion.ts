@@ -36,35 +36,33 @@ export let iniciarSesionUsuario = async (req: Request, res: Response) => {
             case TiposUsuario.Root:
                 datosDelToken = {
                     _id: usuarioEncontrado._id, id: usuarioEncontrado.id, usuario: usuarioEncontrado.usuario, tipo: usuarioEncontrado.tipo,
-                    nombre: usuarioEncontrado.nombre, apepat: usuarioEncontrado.apepat, apemat: usuarioEncontrado.apemat,
-                    //personalizacion: usuarioEncontrado.personalizacion
+                    nombre: usuarioEncontrado.nombre, apepat: usuarioEncontrado.apepat, apemat: usuarioEncontrado.apemat, idTemaInterfaz: usuarioEncontrado.idTemaInterfaz
                 };
                 break;
             case TiposUsuario.Administrador:
-                await inicializarDatosUsuario(usuarioEncontrado._id, [TiposUsuario.Administrador]);
+                await inicializarDatosUsuario(usuarioEncontrado._id);
                 datosDelToken = {
                     _id: usuarioEncontrado._id, id: usuarioEncontrado.id, usuario: usuarioEncontrado.usuario, tipo: usuarioEncontrado.tipo,
                     nombre: usuarioEncontrado.nombre, apepat: usuarioEncontrado.apepat, apemat: usuarioEncontrado.apemat, correo: usuarioEncontrado.correo,
-                    rutaFoto: usuarioEncontrado.rutaFoto, tipoDePersona: usuarioEncontrado.tipoDePersona, rfc: usuarioEncontrado.rfc,
-                    /*personalizacion: usuarioEncontrado.personalizacion,*/
-                    _idAccesoUsuario: usuarioEncontrado._idAccesoUsuario, _idUsuario: usuarioEncontrado._idUsuario
+                    rutaFoto: usuarioEncontrado.rutaFoto, tipoDePersona: usuarioEncontrado.tipoDePersona, rfc: usuarioEncontrado.rfc, idTemaInterfaz: usuarioEncontrado.idTemaInterfaz,
+                    _idUsuario: usuarioEncontrado._idUsuario
                 }
                 break;
             case TiposUsuario.Empleado:
                 await verificarHorario(usuarioEncontrado);
                 await verificarAccesoUsuario(usuarioEncontrado._idAccesoUsuario);
-                await inicializarDatosUsuario(usuarioEncontrado._id, [TiposUsuario.Empleado]);
+                await inicializarDatosUsuario(usuarioEncontrado._id);
                 datosDelToken = {
                     _id: usuarioEncontrado._id, id: usuarioEncontrado.id, usuario: usuarioEncontrado.usuario, tipo: usuarioEncontrado.tipo,
                     nombre: usuarioEncontrado.nombre, apepat: usuarioEncontrado.apepat, apemat: usuarioEncontrado.apemat, correo: usuarioEncontrado.correo,
-                    rutaFoto: usuarioEncontrado.rutaFoto, tipoDePersona: usuarioEncontrado.tipoDePersona, rfc: usuarioEncontrado.rfc,
-                   /* personalizacion: usuarioEncontrado.personalizacion,*/ _idAccesoUsuario: usuarioEncontrado._idAccesoUsuario,
+                    rutaFoto: usuarioEncontrado.rutaFoto, tipoDePersona: usuarioEncontrado.tipoDePersona, rfc: usuarioEncontrado.rfc, idTemaInterfaz: usuarioEncontrado.idTemaInterfaz,
                     _idUsuario: usuarioEncontrado._idUsuario,
                 }
                 break;
         }
         const token: any = obtenerToken(datosDelToken);
         await guardarBitacora(usuarioEncontrado._id);
+        console.log('TOKEN', token);
         return res.status(200).json(token);
     } catch (error: any) {
         return res.status(error.codigo).send({ titulo: error.titulo, detalles: error.detalles });
@@ -80,13 +78,13 @@ export let cerrarSesionUsuario = async (req: Request, res: Response) => {
     try {
         switch (res.locals.usuario.tipo) {
             case TiposUsuario.Root:
-                await inicializarDatosUsuario(_idUsuario, [TiposUsuario.Root]);
+                await inicializarDatosUsuario(_idUsuario);
                 break;
             case TiposUsuario.Administrador:
-                await inicializarDatosUsuario(_idUsuario, [TiposUsuario.Administrador]);
+                await inicializarDatosUsuario(_idUsuario);
                 break;
             case TiposUsuario.Empleado:
-                await inicializarDatosUsuario(_idUsuario, [TiposUsuario.Empleado]);
+                await inicializarDatosUsuario(_idUsuario);
                 break;
         }
         return res.status(200).json({ titulo: 'Sesión cerrada', detalles: 'La sesión se ha cerrado con éxito' });
@@ -275,13 +273,16 @@ async function guardarBitacora(_idUsuario: string): Promise<void> {
         });
     })
 }
-async function inicializarDatosUsuario(_idUsuario: string, tiposUsuarioValidos: number[]): Promise<void> {
+async function inicializarDatosUsuario(_idUsuario: string): Promise<void> {
     return new Promise<void>((resolve, reject) => {
         Usuario.findOneAndUpdate(
-            { _id: _idUsuario, tipo: { $in: tiposUsuarioValidos } }
+            { _id: _idUsuario }
         )
             .exec((err: NativeError, usuario: IUsuario | null) => {
-                if (err) reject({ codigo: 422, titulo: 'Ocurrió un error al inicializar los datos del usuario', detalles: 'Ha ocurrido un error al inicializar los datos del usuario, favor de intentarlo mas tarde' });
+                if (err) {
+                    console.log(err);
+                    reject({ codigo: 422, titulo: 'Ocurrió un error al inicializar los datos del usuario', detalles: 'Ha ocurrido un error al inicializar los datos del usuario, favor de intentarlo mas tarde' });
+                }
                 else {
                     if (usuario) resolve()
                     else reject({ codigo: 422, titulo: 'Ocurrió un error al inicializar los datos del usuario', detalles: 'Ha ocurrido un error al inicializar los datos del usuario, posiblemente no exista' });
