@@ -81,10 +81,10 @@
                 <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.nombre" #nombre="ngModel" name="nombre"
                        placeholder="Ingresa el nombre" pattern="{{ ExpresionesRegulares[3].expresion }}" id="input_nombre" required>
                 <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.required">
-                    <p class="caption status-danger" *ngIf="nombre.errors?.required">Por favor ingresa el nombre</p>
+                    <p class="caption status-danger">Por favor ingresa el nombre</p>
                 </ng-container>
                 <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.pattern">
-                    <p class="caption status-danger" *ngIf="nombre.errors?.required">{{ ExpresionesRegulares[3].mensaje }}</p>
+                    <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
                 </ng-container>
             </div>
             <div class="col-lg-4 col-md-4 col-sm-12 form-group">
@@ -103,7 +103,7 @@
               <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoUsuario.apemat" #apemat="ngModel" name="apemat"
                      placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" id="input_apemat" required>
               <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.required">
-                <p class="caption status-danger">Por favor ingresa el apellido paterno</p>
+                <p class="caption status-danger">Por favor ingresa el apellido materno</p>
               </ng-container>
               <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.pattern">
                 <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>

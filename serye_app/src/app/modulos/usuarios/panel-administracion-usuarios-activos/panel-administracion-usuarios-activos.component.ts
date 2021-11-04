@@ -15,6 +15,8 @@ import {PaginadorComponent} from "../../../compartido/componentes/paginador/pagi
 import {PaginadorMediano} from "../../../compartido/constantes/opciones-tamanio-paginador.constant";
 import {Paginador} from "../../../compartido/modelos/paginador.model";
 import {Subscription} from "rxjs/internal/Subscription";
+import {SmartTableData} from "../../../@core/data/smart-table";
+import {LocalDataSource} from "ng2-smart-table";
 @Component({
   selector: 'app-panel-administracion-usuarios-activos',
   templateUrl: './panel-administracion-usuarios-activos.component.html',
@@ -30,7 +32,77 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
   totalUsuarios: number = 0;
   //PARA CUANDO SE AGREGA UN NUEVO USUARIO
   subscripcionAgregarNuevoUsuario: Subscription;
+  //TABLA DE USUARIOS ACTIVOS
+  settings = {
+    actions: {
+      custom: [
+        {
+          name: 'accept',
+          title: '<i class="nb-checkmark inline-block width: 50px"></i>',
+        },
+        {
+          name: 'deny',
+          title: '<i class="nb-close inline-block width: 50px"></i>',
+        },
+      ],
+    },
+    columns: {
+      id: {
+        title: 'ID',
+      },
+      name: {
+        title: 'Full Name',
+      },
+      username: {
+        title: 'User Name',
+      },
+      email: {
+        title: 'Email',
+      }
+    },
+  };
+
+  data = [
+    {
+      id: 1,
+      name: 'Leanne Graham',
+      username: 'Bret',
+      email: 'Sincere@april.biz',
+    },
+    {
+      id: 2,
+      name: 'Ervin Howell',
+      username: 'Antonette',
+      email: 'Shanna@melissa.tv',
+    },
+    {
+      id: 3,
+      name: 'Clementine Bauch',
+      username: 'Samantha',
+      email: 'Nathan@yesenia.net',
+    },
+    {
+      id: 4,
+      name: 'Patricia Lebsack',
+      username: 'Karianne',
+      email: 'Julianne.OConner@kory.org',
+    },
+    {
+      id: 5,
+      name: 'Chelsey Dietrich',
+      username: 'Kamren',
+      email: 'Lucio_Hettinger@annie.ca',
+    },
+  ];
+
+  onCustom(event) {
+    alert(`Custom event '${event.action}' fired on row №: ${event.data.id}`)
+  }
+
+  source: LocalDataSource = new LocalDataSource();
+
   constructor(
+      private service: SmartTableData,
       private router: Router,
       private dialog: MatDialog,
       private _serAlertas: AlertasService,
@@ -39,7 +111,10 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
       private _serSpinner: NgxSpinnerService,
       public _serAutenticacion: AutenticacionService,
       public _serFuncionesGenerales: FuncionesGeneralesService
-  ) { }
+  ) {
+    const data = this.service.getData();
+    this.source.load(data);
+  }
 
   ngOnInit(): void {
       this.obtenerUsuarios(0, 10);
@@ -48,7 +123,13 @@ export class PanelAdministracionUsuariosActivosComponent implements OnInit {
           this.obtenerUsuarios(0, 10);
       });
   }
-
+  onDeleteConfirm(event): void {
+    if (window.confirm('Are you sure you want to delete?')) {
+      event.confirm.resolve();
+    } else {
+      event.confirm.reject();
+    }
+  }
   obtenerUsuarios(inicio: number, fin: number) {
     this._serSpinner.show(undefined, SpinnerCargaCirculos);
     this._serUsuarios.obtenerUsuariosFiltrados(this.filtro, inicio, fin, true).subscribe(

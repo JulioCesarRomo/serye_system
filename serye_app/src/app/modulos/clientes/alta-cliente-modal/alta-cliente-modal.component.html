@@ -1,0 +1,234 @@
+<ngx-spinner></ngx-spinner>
+<nb-card style="max-height: 100%; overflow-y: hidden;">
+  <nb-card-header>
+    ALTA DE NUEVO CLIENTE
+  </nb-card-header>
+  <nb-card-body class="container">
+    <nb-stepper disableStepNavigation>
+      <nb-step [stepControl]="nuevoClienteInformacionGeneralForm" label="Información General">
+        <form #nuevoClienteInformacionGeneralForm="ngForm" class="step-container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12">
+              <label class="label" for="select_tipo_usuario">Tipo de persona</label>
+              <div class="w-100">
+                <nb-button-group id="select_tipo_usuario">
+                  <button nbButtonToggle [value]="TiposDePersona.Fisica" (click)="nuevoCliente.tipoDePersona = TiposDePersona.Fisica">
+                    {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Fisica)}}</button>
+                  <button nbButtonToggle [value]="TiposDePersona.Moral" (click)="nuevoCliente.tipoDePersona = TiposDePersona.Moral">
+                    {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Moral)}}</button>
+                  <button nbButtonToggle [value]="TiposDePersona.Ninguna" (click)="nuevoCliente.tipoDePersona = TiposDePersona.Ninguna">
+                    {{_serFuncionesGenerales.obtenerTipoDePersona(TiposDePersona.Ninguna)}}</button>
+                </nb-button-group>
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.tipoDePersona == TiposDePersona.Fisica || nuevoCliente.tipoDePersona == TiposDePersona.Ninguna">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <nb-form-field>
+                <label class="label" for="input_nombre">Nombre</label>
+                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoCliente.nombre" #nombre="ngModel" name="nombre"
+                       placeholder="Ingresa el nombre" pattern="{{ ExpresionesRegulares[3].expresion }}" id="input_nombre" required>
+                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.required">
+                  <p class="caption status-danger">Por favor ingresa el nombre</p>
+                </ng-container>
+                <ng-container *ngIf="(nombre.invalid && (nombre.dirty || nombre.touched)) && nombre.errors.pattern">
+                  <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
+                </ng-container>
+              </nb-form-field>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <nb-form-field>
+                <label class="label" for="input_apepat">Apellido paterno</label>
+                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoCliente.apepat" #apepat="ngModel" name="apepat"
+                       placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" id="input_apepat" required>
+                <ng-container *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.required">
+                  <p class="caption status-danger">Por favor ingresa el apellido paterno</p>
+                </ng-container>
+                <ng-container *ngIf="(apepat.invalid && (apepat.dirty || apepat.touched)) && apepat.errors.pattern">
+                  <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
+                </ng-container>
+              </nb-form-field>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <nb-form-field>
+                <label class="label" for="input_apemat">Apellido materno</label>
+                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoCliente.apemat" #apemat="ngModel" name="apemat"
+                       placeholder="Ingresa el apellido paterno" pattern="{{ ExpresionesRegulares[4].expresion }}" id="input_apemat" required>
+                <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.required">
+                  <p class="caption status-danger">Por favor ingresa el apellido materno</p>
+                </ng-container>
+                <ng-container *ngIf="(apemat.invalid && (apemat.dirty || apemat.touched)) && apemat.errors.pattern">
+                  <p class="caption status-danger">{{ ExpresionesRegulares[3].mensaje }}</p>
+                </ng-container>
+              </nb-form-field>
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.tipoDePersona == TiposDePersona.Moral">
+            <div class="col-lg-12 col-md-12 col-sm-12 form-group">
+              <nb-form-field>
+                <label class="label" for="input_razon_social">Razón Social</label>
+                <input type="text" nbInput fullWidth shape="rectangle" [(ngModel)]="nuevoCliente.razonSocial" #razonSocial="ngModel" name="razonSocial"
+                       placeholder="Ingresa la razón social" pattern="{{ ExpresionesRegulares[5].expresion }}" id="input_razon_social" required>
+                <ng-container *ngIf="(razonSocial.invalid && (razonSocial.dirty || razonSocial.touched)) && razonSocial.errors.required">
+                  <p class="caption status-danger">Por favor ingresa la razón social</p>
+                </ng-container>
+                <ng-container *ngIf="(razonSocial.invalid && (razonSocial.dirty || razonSocial.touched)) && razonSocial.errors.pattern">
+                  <p class="caption status-danger">{{ ExpresionesRegulares[5].mensaje }}</p>
+                </ng-container>
+              </nb-form-field>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <button nbButton nbStepperNext [disabled]="nuevoClienteInformacionGeneralForm.invalid || nuevoCliente.tipoDePersona == null">CONTINUAR</button>
+            <!--<div class="col-lg-6 col-md-6 col-sm-12 form-group">
+              <button nbButton outline fullWidth status="danger" (click)="referenciaDialogo.close()">
+                CANCELAR
+              </button>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 form-group">
+              <button nbButton outline fullWidth status="success"
+                      [disabled]="nuevoClienteInformacionGeneralForm.invalid">
+                AGREGAR NUEVO USUARIO
+              </button>
+            </div>-->
+          </div>
+        </form>
+      </nb-step>
+      <nb-step [stepControl]="nuevoClienteDireccionesForm" label="Direcciones">
+        <form #nuevoClienteDireccionesForm="ngForm" class="step-container">
+          <!-- DIRECCION DE ENVÍO -->
+          <div class="row">
+            <nb-toggle [(ngModel)]="nuevoCliente.agregarDireccionEnvio" status="success" name="agregarDireccion" class="mt-2">¿Agregar dirección de envío?</nb-toggle>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionEnvio">
+            <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+              <label class="label" for="input_codigo_postal_direccion_envio">Codigo postal</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Código postal" #claveCodigoPostal="ngModel"
+                     (ngModelChange)="filtrarCodigosPostalesDireccionEnvio(claveCodigoPostal.value)" ngModel id="input_codigo_postal_direccion_envio" name="claveCodigoPostal" required>
+              <ng-container *ngIf="(claveCodigoPostal.invalid && (claveCodigoPostal.dirty || claveCodigoPostal.touched)) && claveCodigoPostal.errors.required">
+                <p class="caption status-danger">Ingresa la clave de código postal</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-12 form-group" *ngIf="codigosPostalesEnvio.length != 0">
+              <label class="label" for="input_fraccionamiento">Fraccionamiento</label>
+              <nb-select fullWidth shape="rectangle" [(ngModel)]="nuevoCliente._idDireccionEnvio._idCodigoPostal" #codigoPostal="ngModel" name="tipo" id="input_fraccionamiento" required>
+                <nb-option *ngFor="let codigoPostal of codigosPostalesEnvio" [value]="codigoPostal">
+                  {{codigoPostal.d_asenta}}
+                </nb-option>
+              </nb-select>
+              <ng-container *ngIf="(codigoPostal.invalid && (codigoPostal.dirty || codigoPostal.touched)) && codigoPostal.errors.required">
+                <p class="caption status-danger">Por favor selecciona un fraccionamiento</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionEnvio">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionEnvio._idCodigoPostal">
+              <label class="label" for="input_calle_direccion_envio">Calle</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el nombre de la calle" [(ngModel)]="nuevoCliente._idDireccionEnvio.calle"
+                     #calleDireccionDeEnvio="ngModel" ngModel id="input_calle_direccion_envio" name="calleDireccionDeEnvio" required>
+              <ng-container *ngIf="(calleDireccionDeEnvio.invalid && (calleDireccionDeEnvio.dirty || calleDireccionDeEnvio.touched)) && calleDireccionDeEnvio.errors.required">
+                <p class="caption status-danger">Por favor ingresa el nombre de la calle de la dirección</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionEnvio._idCodigoPostal">
+              <label class="label" for="input_numero_exterior_direccion_envio">Numero Exterior</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero exterior" [(ngModel)]="nuevoCliente._idDireccionEnvio.numeroExterior"
+                     #numeroExteriorDireccionDeEnvio="ngModel" ngModel id="input_numero_exterior_direccion_envio" name="numeroExteriorDireccionDeEnvio" required>
+              <ng-container *ngIf="(numeroExteriorDireccionDeEnvio.invalid && (numeroExteriorDireccionDeEnvio.dirty || numeroExteriorDireccionDeEnvio.touched)) && numeroExteriorDireccionDeEnvio.errors.required">
+                <p class="caption status-danger">Por favor ingresa el número interior de la dirección</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionEnvio._idCodigoPostal">
+              <label class="label" for="input_numero_interior_direccion_envio">Numero interior</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero interior" [(ngModel)]="nuevoCliente._idDireccionEnvio.numeroInterior"
+                     #numeroInteriorDireccionDeEnvio="ngModel" ngModel id="input_numero_interior_direccion_envio" name="numeroInteriorDireccionDeEnvio">
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionEnvio">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_estado_direccion_envio">Estado</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Estado" [(ngModel)]="nuevoCliente._idDireccionEnvio._idCodigoPostal.d_estado"
+                     #d_estadoDireccionDeEnvio="ngModel" ngModel id="input_estado_direccion_envio" name="d_estadoDireccionDeEnvio" disabled required>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_ciudad_direccion_envio">Ciudad</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ciudad" [(ngModel)]="nuevoCliente._idDireccionEnvio._idCodigoPostal.d_ciudad"
+                     #d_ciudadDireccionDeEnvio="ngModel" ngModel id="input_ciudad_direccion_envio" name="d_ciudadDireccionDeEnvio" disabled required>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_estado_direccion_envio">Municipio</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Municipio" [(ngModel)]="nuevoCliente._idDireccionEnvio._idCodigoPostal.D_mnpio"
+                     #d_mnpioDireccionDeEnvio="ngModel" ngModel id="input_municipio_direccion_envio" name="d_mnpio" disabled required>
+            </div>
+          </div>
+          <!-- DIRECCION DE FACTURACIÓN -->
+          <div class="row">
+            <nb-toggle [(ngModel)]="nuevoCliente.agregarDireccionFacturacion" status="success" name="agregarDireccion" class="mt-2">¿Agregar dirección de envío?</nb-toggle>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionFacturacion">
+            <div class="col-lg-4 col-md-6 col-sm-12 form-group">
+              <label class="label" for="input_codigo_postal_direccion_facturacion">Codigo postal</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Código postal" #claveCodigoPostal="ngModel"
+                     (ngModelChange)="filtrarCodigosPostalesDireccionFacturacion(claveCodigoPostal.value)" ngModel id="input_codigo_postal_direccion_facturacion" name="claveCodigoPostal" required>
+              <ng-container *ngIf="(claveCodigoPostal.invalid && (claveCodigoPostal.dirty || claveCodigoPostal.touched)) && claveCodigoPostal.errors.required">
+                <p class="caption status-danger">Ingresa la clave de código postal</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-8 col-md-6 col-sm-12 form-group" *ngIf="codigosPostalesFacturacion.length != 0">
+              <label class="label" for="input_fraccionamiento_direccion_facturacion">Fraccionamiento</label>
+              <nb-select fullWidth shape="rectangle" [(ngModel)]="nuevoCliente._idDireccionFacturacion._idCodigoPostal" #codigoPostal="ngModel" name="tipo" id="input_fraccionamiento_direccion_facturacion" required>
+                <nb-option *ngFor="let codigoPostal of codigosPostalesFacturacion" [value]="codigoPostal">
+                  {{codigoPostal.d_asenta}}
+                </nb-option>
+              </nb-select>
+              <ng-container *ngIf="(codigoPostal.invalid && (codigoPostal.dirty || codigoPostal.touched)) && codigoPostal.errors.required">
+                <p class="caption status-danger">Por favor selecciona un fraccionamiento</p>
+              </ng-container>
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionFacturacion">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionFacturacion._idCodigoPostal">
+              <label class="label" for="input_calle_direccion_envio">Calle</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el nombre de la calle" [(ngModel)]="nuevoCliente._idDireccionFacturacion.calle"
+                     #calleDireccionDeFacturacion="ngModel" ngModel id="input_calle_direccion_facturacion" name="calleDireccionDeFacturacion" required>
+              <ng-container *ngIf="(calleDireccionDeFacturacion.invalid && (calleDireccionDeFacturacion.dirty || calleDireccionDeFacturacion.touched)) && calleDireccionDeFacturacion.errors.required">
+                <p class="caption status-danger">Por favor ingresa el nombre de la calle de la dirección</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionFacturacion._idCodigoPostal">
+              <label class="label" for="input_numero_exterior_direccion_facturacion">Numero Exterior</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero exterior" [(ngModel)]="nuevoCliente._idDireccionFacturacion.numeroExterior"
+                     #numeroExteriorDireccionDeFacturacion="ngModel" ngModel id="input_numero_exterior_direccion_facturacion" name="numeroExteriorDireccionDeFacturacion" required>
+              <ng-container *ngIf="(numeroExteriorDireccionDeFacturacion.invalid && (numeroExteriorDireccionDeFacturacion.dirty || numeroExteriorDireccionDeFacturacion.touched)) && numeroExteriorDireccionDeFacturacion.errors.required">
+                <p class="caption status-danger">Por favor ingresa el número interior de la dirección</p>
+              </ng-container>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group" *ngIf="nuevoCliente._idDireccionFacturacion._idCodigoPostal">
+              <label class="label" for="input_numero_interior_direccion_facturacion">Numero interior</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ingresa el numero interior" [(ngModel)]="nuevoCliente._idDireccionFacturacion.numeroInterior"
+                     #numeroInteriorDireccionDeFacturacion="ngModel" ngModel id="input_numero_interior_direccion_facturacion" name="numeroInteriorDireccionDeFacturacion">
+            </div>
+          </div>
+          <div class="row" *ngIf="nuevoCliente.agregarDireccionFacturacion">
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_estado_direccion_facturacion">Estado</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Estado" [(ngModel)]="nuevoCliente._idDireccionFacturacion._idCodigoPostal.d_estado"
+                     #d_estadoDireccionDeFacturacion="ngModel" ngModel id="input_estado_direccion_facturacion" name="d_estadoDireccionDeFacturacion" disabled required>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_ciudad_direccion_facturacion">Ciudad</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Ciudad" [(ngModel)]="nuevoCliente._idDireccionFacturacion._idCodigoPostal.d_ciudad"
+                     #d_ciudadDireccionDeFacturacion="ngModel" ngModel id="input_ciudad_direccion_facturacion" name="d_ciudadDireccionDeFacturacion" disabled required>
+            </div>
+            <div class="col-lg-4 col-md-4 col-sm-12 form-group">
+              <label class="label" for="input_estado_direccion_facturacion">Municipio</label>
+              <input type="text" nbInput fullWidth shape="rectangle" placeholder="Municipio" [(ngModel)]="nuevoCliente._idDireccionFacturacion._idCodigoPostal.D_mnpio"
+                     #d_mnpioDireccionDeEnvio="ngModel" ngModel id="input_municipio_direccion_facturacion" name="d_mnpio" disabled required>
+            </div>
+          </div>
+        </form>
+      </nb-step>
+    </nb-stepper>
+  </nb-card-body>
+</nb-card>

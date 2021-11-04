@@ -1,4 +1,5 @@
 import {Usuario} from "./usuario.model";
+import {CodigoPostal} from "./codigoPostal.model";
 
 export class Direccion {
   _id?: string;

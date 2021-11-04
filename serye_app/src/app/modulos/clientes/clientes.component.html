@@ -1,1 +1,26 @@
-<p>clientes works!</p>
+<nb-card>
+  <nb-card-header>
+    ADMINISTRACIÓN DE CLIENTES
+  </nb-card-header>
+  <nb-card-body>
+    <div class="col-12">
+      <div class="row">
+        <button nbButton outline status="success" (click)="abrirAltaUsuarioModal()">
+          <nb-icon icon="person-add-outline"></nb-icon>&nbsp;AGREGAR NUEVO CLIENTE
+        </button>
+      </div>
+      <div class="row">
+        <nb-card size="small" class="100">
+          <nb-tabset fullWidth>
+            <nb-tab tabTitle="ACTIVOS">
+              <app-panel-administracion-clientes-activos></app-panel-administracion-clientes-activos>
+            </nb-tab>
+            <nb-tab tabTitle="ELIMINADOS">
+              <app-panel-administracion-clientes-inactivos></app-panel-administracion-clientes-inactivos>
+            </nb-tab>
+          </nb-tabset>
+        </nb-card>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>

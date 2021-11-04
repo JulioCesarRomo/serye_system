@@ -30,7 +30,7 @@ export const ExpresionesRegulares = [
         mensaje: 'Este campo admite letras y puntos. Cada palabra debe de empezar con mayúscula'
     },
     {
-        //empresa
+        //Razón social
         id: 5,
         expresion: '^([A-ZÑÁÉÍÓÚa-zñáéíóú0-9_-]|[.]|[ ])*$',
         mensaje: 'Este campo admite letras, digitos, guion bajo, guion alto, punto y espacio'

@@ -32,6 +32,7 @@ import {NgxSpinnerModule} from "ngx-spinner";
 import {FlexModule} from "@angular/flex-layout";
 import { EditarFotoUsuarioModalComponent } from './editar-foto-usuario-modal/editar-foto-usuario-modal.component';
 import {ImageCropperModule} from "ngx-image-cropper";
+import {Ng2SmartTableModule} from "ng2-smart-table";
 
 @NgModule({
   declarations: [
@@ -74,6 +75,7 @@ import {ImageCropperModule} from "ngx-image-cropper";
         NbIconModule,
         NbFormFieldModule,
         NbToggleModule,
+        Ng2SmartTableModule,
     ]
 })
 export class UsuariosModule { }

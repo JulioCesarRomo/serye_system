@@ -25,6 +25,7 @@ export class UsuariosComponent implements OnInit {
         {
           context: 'this is some additional data passed to dialog',
           closeOnBackdropClick: false,
+          closeOnEsc: false
         }).onClose.subscribe(nuevoUsuario => {
             if(isNotNullOrUndefined(nuevoUsuario)) this._serEventos.agregarNuevoUsuario();
     });
