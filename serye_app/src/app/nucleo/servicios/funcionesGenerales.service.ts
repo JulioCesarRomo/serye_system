@@ -12,6 +12,7 @@ import {Router} from "@angular/router";
 import {AlertasService} from "./alertas.service";
 import {TiposUsuario} from "../../compartido/enumeraciones/tipos-usuario.enum";
 import {TiposDePersona} from "../../compartido/enumeraciones/tipos-de-persona.enum";
+import {Cliente} from "../../compartido/modelos/cliente.model";
 // import {Producto} from "../../compartido/modelos/producto.model";
 // import {ImagenProducto} from "../../compartido/modelos/imagenProducto.model";
 // import {AutenticacionService} from "./autenticacion.service";
@@ -63,6 +64,20 @@ export class FuncionesGeneralesService {
       case TiposDePersona.Ninguna: return 'Ninguna';
       default: return ''
     }
+  }
+  obtenerNombreRazonSocialCliente(cliente: Cliente | string | null){
+    if(isNotNullOrUndefined(cliente)){
+      const clienteCasteado: Cliente = <Cliente>cliente;
+      switch (clienteCasteado.tipoDePersona) {
+        case TiposDePersona.Moral: return clienteCasteado.razonSocial ? clienteCasteado.razonSocial : '-';
+        case TiposDePersona.Fisica:
+        case TiposDePersona.Ninguna:
+          if (clienteCasteado.nombre || clienteCasteado.apepat || clienteCasteado.apemat) {
+            return (clienteCasteado.nombre ? clienteCasteado.nombre : '') + (clienteCasteado.apepat ? (' ' + clienteCasteado.apepat) : '') + (clienteCasteado.apemat ? (' ' + clienteCasteado.apemat) : '');
+          } else return '-';
+        default: return '-';
+      }
+    } else return '-';
   }
   /*obtenerNombreAcceso(acceso: Acceso | null){
     let nombre = '';

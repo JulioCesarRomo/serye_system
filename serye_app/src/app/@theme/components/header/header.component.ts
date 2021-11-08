@@ -12,8 +12,7 @@ import {WebSocketsService} from "../../../nucleo/servicios/web-sockets.service";
 import {Router} from "@angular/router";
 import {HttpErrorResponse} from "@angular/common/http";
 import {AlertasService} from "../../../nucleo/servicios/alertas.service";
-import {TemasInterfaz} from "../../../compartido/enumeraciones/temas-interfaz.enum";
-import {TEMAS_INTERFAZ} from "../../../../../../serye_server/src/api/constantes/temas-interfaz.constant";
+import {TEMAS_INTERFAZ} from "../../../compartido/constantes/temas-interfaz.constant";
 
 @Component({
   selector: 'ngx-header',

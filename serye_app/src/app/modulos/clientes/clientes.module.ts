@@ -11,10 +11,11 @@ import {
   NbCardModule, NbFormFieldModule,
   NbIconModule,
   NbInputModule, NbSelectModule, NbStepperModule,
-  NbTabsetModule, NbToggleModule
+  NbTabsetModule, NbTagModule, NbToggleModule
 } from "@nebular/theme";
 import {NgxSpinnerModule} from "ngx-spinner";
 import {FormsModule} from "@angular/forms";
+import {DirectivasModule} from "../../compartido/directivas/directivas.module";
 
 
 @NgModule({
@@ -38,7 +39,9 @@ import {FormsModule} from "@angular/forms";
     NbStepperModule,
     NbFormFieldModule,
     NbToggleModule,
-    NbSelectModule
+    NbSelectModule,
+    DirectivasModule,
+    NbTagModule
   ]
 })
 export class ClientesModule { }

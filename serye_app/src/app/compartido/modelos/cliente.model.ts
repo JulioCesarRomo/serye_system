@@ -16,7 +16,7 @@ export class Cliente {
     correo?: string;
     nombreFoto?: string;
     rutaFoto?: string;
-    tieneRepresentante?: boolean;
+    agregarRepresentante?: boolean;
     nombreRepresentante?: string;
     apepatRepresentante?: string;
     apematRepresentante?: string;
@@ -33,7 +33,7 @@ export class Cliente {
         this.agregarDireccionFacturacion = false;
         this.direccionesIguales = false;
         this._idDireccionFacturacion = new Direccion();
-        this.tieneRepresentante = false;
+        this.agregarRepresentante = false;
         this.telefonos = [];
     }
 }
